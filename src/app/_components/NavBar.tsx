@@ -1,14 +1,15 @@
-import Link from "next/link";
+import Link from 'next/link';
+import LoginStatus from '@/app/_components/LoginStatus';
 
 export const NavBar = () => (
-	<div className="bg-blue-400 sticky top-0 p-2 text-white flex justify-between">
-        <div className="flex space-x-4">
-            <Link href="/">Home</Link>
-            <Link href="/statistics">Statistics</Link>
-            <Link href="/tournament">Tournament</Link>
-        </div>
-        <div>
-            <Link href="/signin">Login</Link>
-        </div>
+	<div className="sticky top-0 flex justify-between bg-blue-400 p-4 text-white">
+		<div className="flex space-x-4">
+			<Link href="/">Home</Link>
+			<Link href="/statistics">Statistics</Link>
+			<Link href="/tournament">Tournament</Link>
+		</div>
+		<div>
+			<LoginStatus />
+		</div>
 	</div>
 );
