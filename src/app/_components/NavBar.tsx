@@ -8,7 +8,7 @@ export const NavBar = () => (
             <Link href="/tournament">Tournament</Link>
         </div>
         <div>
-            Login
+            <Link href="/signin">Login</Link>
         </div>
 	</div>
 );
