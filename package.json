@@ -10,6 +10,7 @@
     "lint:fix": "eslint \"./src/**/*.{ts,tsx}\" --fix && prettier \"./src/**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
     "firebase": "^10.6.0",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
