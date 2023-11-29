@@ -1,4 +1,3 @@
-// TODO:implement table
 import { TournamentRecord, TournamentStatus } from '@/types/tournament';
 import {
 	RemoveButton,
@@ -29,8 +28,8 @@ export const TournamentTable = ({ tournaments }: TableProps) => {
 
 	return (
 		<div className="overflow-x-auto rounded-lg">
-			<table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-				<thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+			<table className="w-full text-left text-sm text-gray-400">
+				<thead className="bg-gray-700 text-xs uppercase text-gray-400">
 					<tr>
 						<th scope="col" className="px-6 py-3">
 							username
@@ -53,7 +52,7 @@ export const TournamentTable = ({ tournaments }: TableProps) => {
 					{tournaments.map(tournament => (
 						<tr
 							key={tournament.id}
-							className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+							className="border-b border-gray-700 bg-gray-800"
 						>
 							<td className="px-6 py-4">{tournament.username}</td>
 							<td className="px-6 py-4">#{tournament.userHash}</td>
