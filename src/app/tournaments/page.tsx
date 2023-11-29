@@ -1,51 +1,27 @@
-import { TournamentRecord, TournamentStatus } from '@/types/tournament';
+import { CreateTournamentButton } from '../_components/tournament/CreateTournamentButton';
 import { NoTournament } from '../_components/tournament/NoTournament';
-import { TournamentTable } from '../_components/tournament/TournamentTable';
-import { Timestamp } from 'firebase/firestore';
+import { TournamentList } from '../_components/tournament/TournamentList';
+import {
+	demo_tournament_list,
+	empty_tournament_list
+} from '@/data/tournament_mock';
 
 export default function TournamentPage() {
 	// TODO: fetch actual tournaments
 	// TODO: probably needs to set username manually (or implement in darts-counter :D)
-	var tournaments: TournamentRecord[] = [];
-	var tournaments: TournamentRecord[] = [
-		{
-			id: 'a',
-			uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
-			username: 'betusin',
-			userHash: 'Kaf674',
-			status: TournamentStatus.Sent,
-			statusTimestamp: Timestamp.now()
-		},
-		{
-			id: 'b',
-			uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
-			username: 'betusin',
-			userHash: 'Kaf674',
-			status: TournamentStatus.NotInvitedYet
-		},
-		{
-			id: 'c',
-			uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
-			username: 'betusin',
-			userHash: 'Kaf674',
-			status: TournamentStatus.Accepted,
-			statusTimestamp: Timestamp.now()
-		},
-		{
-			id: 'c',
-			uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
-			username: 'betusin',
-			userHash: 'Kaf674',
-			status: TournamentStatus.Rejected,
-			statusTimestamp: Timestamp.now()
-		}
-	];
+	var tournaments = empty_tournament_list;
+	var tournaments = demo_tournament_list;
 
 	if (tournaments.length == 0) return <NoTournament />;
 
 	return (
 		<div className="p-12">
-			<TournamentTable tournaments={tournaments} />
+			<div className="pb-12">
+				<TournamentList tournaments={tournaments} />
+			</div>
+			<div>
+				<CreateTournamentButton />
+			</div>
 		</div>
 	);
 }

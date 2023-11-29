@@ -15,3 +15,11 @@ export type TournamentRecord = {
     status: TournamentStatus,
     statusTimestamp?: Timestamp,
 }
+
+export type Tournament = {
+    id: string,
+    name: string,
+    organizedByUID: string,
+    location: string,
+    startAt: Date,
+}
