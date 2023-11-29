@@ -8,22 +8,6 @@ import { auth } from '@/firebase';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef, useState } from 'react';
 
-interface ErrorDialogProps {
-	message: string;
-	onClose: () => void;
-}
-
-const ErrorDialog: React.FC<ErrorDialogProps> = ({ message, onClose }) => {
-	return (
-		<div className="dialog-overlay">
-			<div className="dialog-content">
-				<p>{message}</p>
-				<button onClick={onClose}>Close</button>
-			</div>
-		</div>
-	);
-};
-
 const SignUp = () => {
 	const {
 		register,
