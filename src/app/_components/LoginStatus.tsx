@@ -8,9 +8,14 @@ const LoginStatus = () => {
 	if (status === 'loading') return <div>Loading...</div>;
 	if (status === 'unauthenticated') {
 		return (
-			<Link className="rounded border border-white p-2" href="/signin">
-				Sign in
-			</Link>
+			<div className="flex space-x-4">
+				<Link className="rounded border border-white p-2" href="/signin">
+					Sign in
+				</Link>
+				<Link className="rounded border border-white p-2" href="/signup">
+					Sign up
+				</Link>
+			</div>
 		);
 	}
 
