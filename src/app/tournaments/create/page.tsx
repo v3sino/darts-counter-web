@@ -5,6 +5,7 @@ import FormInputLabel from '@/app/_components/form/FormInputLabel';
 import SubmitButton from '@/app/_components/form/SubmitButton';
 import { TournamentCreate, TournamentSchema } from '@/types/tournament';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -18,6 +19,7 @@ export default function CreateTournamentPage() {
 		formState: { errors, isSubmitting }
 	} = useForm<TournamentCreate>({ resolver: zodResolver(TournamentSchema) });
 	const [show, setShow] = useState(false);
+	const router = useRouter();
 
 	const handleClose = (state: boolean) => {
 		setShow(state);
@@ -33,11 +35,8 @@ export default function CreateTournamentPage() {
 		});
 
 		if (response.ok) {
-			const fetchedData = await response.json();
-			toast.success(
-				`Tournament will be created: ${JSON.stringify(fetchedData)}`,
-				{ duration: 2000 }
-			);
+			toast.success(`Tournament created`, { duration: 2000 });
+			router.push(`/tournaments`);
 		} else {
 			toast.error(`Error fetching data: ${response.statusText}`);
 		}
