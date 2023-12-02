@@ -25,10 +25,15 @@ export type Tournament = {
     startAt: Date,
 }
 
-export type TournamentCreate = z.infer<typeof TournamentSchema>;
 
 export const TournamentSchema = z.object({
     name: string().min(1),
     location: string().min(1),
     startAt: date(),
 });
+
+export const TournamentCreateSchema = TournamentSchema.extend({
+    organizedByUID: string().min(1),
+});
+
+export type TournamentCreate = z.infer<typeof TournamentCreateSchema>;

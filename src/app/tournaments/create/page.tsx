@@ -23,8 +23,24 @@ export default function CreateTournamentPage() {
 		setShow(state);
 	};
 
-	const onSubmit = (data: TournamentCreate) => {
-		toast.success(`Tournament will be created starting at ${data.startAt}`);
+	const onSubmit = async (data: TournamentCreate) => {
+		// TODO: get UID of current signed in user
+		data.organizedByUID = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
+
+		const response = await fetch(`/api/tournaments`, {
+			method: 'POST',
+			body: JSON.stringify(data)
+		});
+
+		if (response.ok) {
+			const fetchedData = await response.json();
+			toast.success(
+				`Tournament will be created: ${JSON.stringify(fetchedData)}`,
+				{ duration: 2000 }
+			);
+		} else {
+			toast.error(`Error fetching data: ${response.statusText}`);
+		}
 	};
 
 	return (
@@ -70,6 +86,9 @@ export default function CreateTournamentPage() {
 								control={control}
 								name="startAt"
 								render={({ field }) => (
+									// TODO: opens way far from where clicked
+									// TODO: cannot choose time
+									// TODO: initial value
 									<Datepicker
 										onChange={date => field.onChange(date)}
 										show={show}
