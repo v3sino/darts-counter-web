@@ -5,10 +5,12 @@ import { CreateTournamentButton } from '../_components/tournament/CreateTourname
 import { NoTournament } from '../_components/tournament/NoTournament';
 import { TournamentList } from '../_components/tournament/TournamentList';
 import { useEffect, useState } from 'react';
+import { LoadingSpinner } from '../_components/LoadingSpinner';
 
 export default function TournamentPage() {
 	// TODO: probably needs to set username manually (or implement in darts-counter :D)
 	const [tournaments, setTournaments] = useState([]);
+	const [fetching, setFetching] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -35,6 +37,7 @@ export default function TournamentPage() {
 				});
 
 				setTournaments(fetchedTournaments);
+				setFetching(false);
 			} else {
 				toast.error(`Error fetching data: ${response.statusText}`);
 			}
@@ -43,16 +46,23 @@ export default function TournamentPage() {
 		fetchData();
 	}, []);
 
-	if (tournaments.length == 0) return <NoTournament />;
-
 	return (
-		<div className="p-12">
-			<div className="pb-12">
-				<TournamentList tournaments={tournaments} />
-			</div>
-			<div>
-				<CreateTournamentButton />
-			</div>
-		</div>
+		<>
+			{fetching ? (
+				<LoadingSpinner />
+			) : (
+				<>
+					{tournaments.length == 0 && <NoTournament />}
+					<div className="p-12">
+						<div className="pb-12">
+							<TournamentList tournaments={tournaments} />
+						</div>
+						<div>
+							<CreateTournamentButton />
+						</div>
+					</div>
+				</>
+			)}
+		</>
 	);
 }
