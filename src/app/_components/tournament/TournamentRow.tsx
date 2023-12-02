@@ -1,7 +1,6 @@
 'use client';
 
 import { Tournament } from '@/types/tournament';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 type TournamentRowProps = {
