@@ -1,17 +1,12 @@
 import { db } from "@/firebase";
 import { TournamentCreateSchema } from "@/types/tournament";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
-// gets all tournaments
-export async function GET() {
-    // TODO: implement
-    console.log('getting tournaments');
-}
-
 // creates a new tournament
 export const POST = async (request: NextRequest) => {
+  // TODO: move to server?
   try {
 
 		const data = await request.json();
