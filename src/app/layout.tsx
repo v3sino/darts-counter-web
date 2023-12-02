@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { NavBar } from './_components/NavBar';
 import SessionProvider from '@/providers/SessionProvider';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
 						<div className="h-screen bg-slate-900">{children}</div>
 					</div>
 				</SessionProvider>
+				<Toaster />
 			</body>
 		</html>
 	);

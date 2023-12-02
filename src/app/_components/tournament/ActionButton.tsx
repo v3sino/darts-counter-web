@@ -1,5 +1,7 @@
 'use client';
 
+import toast from 'react-hot-toast';
+
 interface ActionButtonProps {
 	label: string;
 	onClick: () => void;
@@ -31,7 +33,7 @@ export const ResendInviteButton = () => {
 	return (
 		<ActionButton
 			label="resend invite"
-			onClick={() => console.log('resend invite')}
+			onClick={() => toast.success('resend invite')}
 			bgColor="bg-white"
 			textColor="text-black"
 		/>
@@ -43,7 +45,7 @@ export const SendInviteButton = () => {
 	return (
 		<ActionButton
 			label="send invite"
-			onClick={() => console.log('resend invite')}
+			onClick={() => toast.success('resend invite')}
 			bgColor="bg-blue-500"
 		/>
 	);
@@ -54,7 +56,7 @@ export const RemoveButton = () => {
 	return (
 		<ActionButton
 			label="remove user from tournament"
-			onClick={() => console.log('resend invite')}
+			onClick={() => toast.success('user removed from tournament')}
 			bgColor="bg-red-500"
 		/>
 	);
