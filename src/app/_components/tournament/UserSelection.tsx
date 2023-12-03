@@ -4,15 +4,26 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { ActionButton } from './ActionButton';
 import { useState } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner';
+import toast from 'react-hot-toast';
 
-export const UserSelection = () => {
+export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
+	// TODO: fetch just these not already in tournament?
 	const [options, loading, error] = useCollection(collection(db, 'users'), {
 		snapshotListenOptions: { includeMetadataChanges: true }
 	});
 	const [selectedUser, setSelectedUser] = useState('');
 
-	const onClick = () => {
-		console.log(selectedUser);
+	const onClick = async () => {
+		const response = await fetch(`/api/tournaments/${tournamentId}`, {
+			method: 'PUT',
+			body: JSON.stringify({ records: [selectedUser] })
+		});
+
+		if (response.ok) {
+			toast.success(`User added`, { duration: 2000 });
+		} else {
+			toast.error(`Error fetching data: ${response.statusText}`);
+		}
 	};
 
 	if (error) {

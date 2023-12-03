@@ -38,3 +38,13 @@ export const TournamentCreateSchema = TournamentSchema.extend({
 });
 
 export type TournamentCreate = z.infer<typeof TournamentCreateSchema>;
+
+
+export const TournamentUpdateSchema = z.object({
+    // name: z.string().min(1).optional(),
+    // location: z.string().min(1).optional(),
+    // startAt: z.string().min(1).optional(),
+    records: z.array(z.string()).optional(),
+});
+
+export type TournamentUpdate = z.infer<typeof TournamentUpdateSchema>;

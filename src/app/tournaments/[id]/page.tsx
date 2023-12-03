@@ -32,6 +32,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	}
 
 	const tournamentData = value?.data() as Tournament | undefined;
+	//TODO: use converter instead of this hack https://firebase.google.com/docs/firestore/manage-data/add-data#custom_objects
 
 	return (
 		<>
@@ -41,11 +42,11 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						{value.data()?.name}
 					</h1>
 					<div>
-						<span className="pr-4">Location: {value.data()?.location}</span>
+						<span className="pr-4">Location: {tournamentData?.location}</span>
 						<span className="pr-4">Start: {value.data()?.startAt.seconds}</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
-					<UserSelection />
+					<UserSelection tournamentId={value.id} />
 					{tournamentData?.records === undefined ||
 					tournamentData?.records.length === 0 ? (
 						<>No Users invited yet</>
