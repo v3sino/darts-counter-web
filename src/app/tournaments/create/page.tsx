@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import Datepicker from 'tailwind-datepicker-react';
 
 export default function CreateTournamentPage() {
 	const {
@@ -81,19 +80,11 @@ export default function CreateTournamentPage() {
 
 						<div className="mt-2">
 							<FormInputLabel label="Start date" name="startAt" />
-							<Controller
-								control={control}
+							<FormInputField
+								type="datetime-local"
 								name="startAt"
-								render={({ field }) => (
-									// TODO: opens way far from where clicked
-									// TODO: cannot choose time
-									// TODO: initial value
-									<Datepicker
-										onChange={date => field.onChange(date)}
-										show={show}
-										setShow={handleClose}
-									/>
-								)}
+								required
+								register={register}
 							/>
 							{errors.startAt && (
 								<span className="text-red-500">{errors.startAt?.message}</span>

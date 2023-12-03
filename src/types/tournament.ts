@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore"
-import { date, string, z } from "zod"
+import { string, z } from "zod"
 
 export enum TournamentStatus {
     Rejected = "rejected",
@@ -29,7 +29,7 @@ export type Tournament = {
 export const TournamentSchema = z.object({
     name: string().min(1),
     location: string().min(1),
-    startAt: date(),
+    startAt: string(),
 });
 
 export const TournamentCreateSchema = TournamentSchema.extend({

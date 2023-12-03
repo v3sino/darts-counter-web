@@ -19,7 +19,6 @@
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
-    "tailwind-datepicker-react": "^1.4.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {

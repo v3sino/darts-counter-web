@@ -9,15 +9,11 @@ export const POST = async (request: NextRequest) => {
   // TODO: move to server?
   try {
 
-		const data = await request.json();
+	const data = await request.json();
 
-    if (data.startAt && typeof data.startAt === 'string') {
-      data.startAt = new Date(data.startAt);
-    }
+	const parsedTournament = TournamentCreateSchema.parse(data);
 
-		const parsedTournament = TournamentCreateSchema.parse(data);
-
-    data.startAt = Timestamp.fromDate(data.startAt);
+    data.startAt = Timestamp.fromDate(new Date(data.startAt));
 
     await addDoc(collection(db, "tournaments"), data);
 
