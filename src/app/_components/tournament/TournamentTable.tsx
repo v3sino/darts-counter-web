@@ -7,38 +7,12 @@ import {
 	SendInviteButton
 } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
-import { getRecordByUID } from '@/server/tournaments';
-import { useEffect, useState } from 'react';
 
 interface TableProps {
-	records: string[];
+	records: TournamentRecord[];
 }
 
 export const TournamentTable = ({ records: records }: TableProps) => {
-	// probably needs to listen on records or tournament doc
-	const [tournamentRecords, setTournamentRecords] = useState<
-		TournamentRecord[]
-	>([]);
-
-	useEffect(() => {
-		const fetchTournamentRecords = async () => {
-			const fetchedRecords = [];
-
-			for (const record of records) {
-				try {
-					const tournamentRecord = await getRecordByUID({ id: record });
-					fetchedRecords.push(tournamentRecord);
-				} catch (error) {
-					console.error('Error fetching record:', error);
-				}
-			}
-
-			setTournamentRecords(fetchedRecords);
-		};
-
-		fetchTournamentRecords();
-	}, [records]);
-
 	const renderActionForInvite = (status: TournamentStatus) => {
 		switch (status) {
 			case TournamentStatus.Sent:
@@ -77,7 +51,7 @@ export const TournamentTable = ({ records: records }: TableProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{tournamentRecords.map(record => {
+					{records.map(record => {
 						return (
 							<tr
 								key={record.uid}
