@@ -1,3 +1,4 @@
+import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTournamentButton';
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { demo_tournament } from '@/data/tournament_mock';
 
@@ -20,9 +21,14 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	// }
 
 	return (
-		<div className="p-12">
-			<TournamentTable tournaments={demo_tournament} />
-		</div>
+		<>
+			<div className="p-12">
+				<DeleteTournamentButton id={params.id} />
+				<div className="pt-6">
+					<TournamentTable tournaments={demo_tournament} />
+				</div>
+			</div>
+		</>
 	);
 };
 

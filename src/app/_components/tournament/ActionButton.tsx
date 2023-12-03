@@ -51,12 +51,16 @@ export const SendInviteButton = () => {
 	);
 };
 
-export const RemoveButton = () => {
-	// TODO: handle onClick
+interface RemoveButtonProps {
+	label?: string;
+	onClick: () => void;
+}
+
+export const RemoveButton = ({ label, onClick }: RemoveButtonProps) => {
 	return (
 		<ActionButton
-			label="remove user from tournament"
-			onClick={() => toast.success('user removed from tournament')}
+			label={label ?? 'remove user from tournament'}
+			onClick={onClick}
 			bgColor="bg-red-500"
 		/>
 	);

@@ -20,13 +20,15 @@ export const TournamentRow = ({ tournament }: TournamentRowProps) => {
 	};
 
 	return (
-		<tr
-			className={`cursor-pointer border-b border-gray-700 ${rowClass}`}
-			onClick={redirect}
-		>
-			<td className="px-6 py-4">{tournament.name}</td>
-			<td className="px-6 py-4">{tournament.location}</td>
-			<td className="px-6 py-4">{`${tournament.startAt.toLocaleDateString()} at ${tournament.startAt.toLocaleTimeString()}`}</td>
-		</tr>
+		<>
+			<tr
+				className={`cursor-pointer border-b border-gray-700 ${rowClass}`}
+				onClick={redirect}
+			>
+				<td className="px-6 py-4">{tournament.name}</td>
+				<td className="px-6 py-4">{tournament.location}</td>
+				<td className="px-6 py-4">{`${tournament.startAt.toLocaleDateString()} at ${tournament.startAt.toLocaleTimeString()}`}</td>
+			</tr>
+		</>
 	);
 };

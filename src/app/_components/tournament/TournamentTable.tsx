@@ -1,3 +1,5 @@
+'use client';
+
 import { TournamentRecord, TournamentStatus } from '@/types/tournament';
 import {
 	RemoveButton,
@@ -63,7 +65,11 @@ export const TournamentTable = ({ tournaments }: TableProps) => {
 								{renderActionForInvite(tournament.status)}
 							</td>
 							<td className="px-6 py-4">
-								<RemoveButton />
+								<RemoveButton
+									onClick={() => {
+										console.log('TODO: remove user from tournament');
+									}}
+								/>
 							</td>
 						</tr>
 					))}
