@@ -3,6 +3,7 @@
 import { LoadingSpinner } from '@/app/_components/LoadingSpinner';
 import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTournamentButton';
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
+import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import { db } from '@/firebase';
 import { Tournament } from '@/types/tournament';
 import { doc } from 'firebase/firestore';
@@ -44,6 +45,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						<span className="pr-4">Start: {value.data()?.startAt.seconds}</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
+					<UserSelection />
 					{tournamentData?.records === undefined ||
 					tournamentData?.records.length === 0 ? (
 						<>No Users invited yet</>
