@@ -17,7 +17,7 @@ export default function TournamentPage() {
 			// TODO: get actual current user
 			const currentUser = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
 			const response = await fetch(
-				`/api/tournaments/KafQzU4m5IhPPQDEuDjGgrCf7MC3`,
+				`/api/tournaments?uid=KafQzU4m5IhPPQDEuDjGgrCf7MC3`,
 				{
 					method: 'GET'
 				}

@@ -29,3 +29,20 @@ export const POST = async (request: NextRequest) => {
 		}
 	}
 }
+
+export const GET = async (request: NextRequest) => {
+	// TODO: move to server?
+	var uid = request.nextUrl.searchParams.get("uid");
+
+	var q = query(collection(db, "tournaments"));
+	if (uid != null) {
+		console.log(`uid: ${uid}}`);
+		q = query(collection(db, "tournaments"), where("organizedByUID", "==", uid));
+	}
+
+	const querySnapshot = await getDocs(q);
+	const tournaments = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+	console.log(tournaments);
+
+	return Response.json(tournaments);
+  }
