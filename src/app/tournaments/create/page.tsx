@@ -11,11 +11,13 @@ import toast from 'react-hot-toast';
 
 export default function CreateTournamentPage() {
 	const {
-		control,
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting }
-	} = useForm<TournamentCreate>({ resolver: zodResolver(TournamentSchema) });
+	} = useForm<TournamentCreate>({
+		resolver: zodResolver(TournamentSchema),
+		defaultValues: { startAt: new Date().toString() }
+	});
 	const router = useRouter();
 
 	const onSubmit = async (data: TournamentCreate) => {
