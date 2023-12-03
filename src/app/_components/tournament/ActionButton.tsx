@@ -29,27 +29,38 @@ export const ActionButton = ({
 };
 
 // TODO: probably needed to pass some arguments to handle onClick
-interface SpecificActionButtonProps {}
+interface SpecificActionButtonProps {
+	inviteFromUID: string;
+	inviteToUID: string;
+}
 
-export const ResendInviteButton = () => {
-	// TODO: handle onClick
-	return (
-		<ActionButton
-			label="resend invite"
-			onClick={() => toast.success('resend invite')}
-			bgColor="bg-white"
-			textColor="text-black"
-		/>
-	);
+const onSendInvite = async (inviteData: SpecificActionButtonProps) => {
+	console.log(JSON.stringify(inviteData));
+	const response = await fetch(`/api/invites`, {
+		method: 'POST',
+		body: JSON.stringify(inviteData)
+	});
+	if (response.ok) {
+		toast.success('Invite sucessfully sent');
+	} else {
+		toast.error(`Error fetching data: ${response.statusText}`);
+	}
 };
 
-export const SendInviteButton = () => {
-	// TODO: handle onClick
+export const SendInviteButton = ({
+	inviteData,
+	label
+}: {
+	inviteData: SpecificActionButtonProps;
+	label?: string;
+}) => {
+	console.log(inviteData);
 	return (
 		<ActionButton
-			label="send invite"
-			onClick={() => toast.success('resend invite')}
-			bgColor="bg-blue-500"
+			label={label ?? 'send invite'}
+			onClick={() => onSendInvite(inviteData)}
+			bgColor="bg-blue-400"
+			textColor="text-white"
 		/>
 	);
 };

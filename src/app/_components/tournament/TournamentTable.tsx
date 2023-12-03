@@ -1,32 +1,35 @@
 'use client';
 
 import { TournamentRecord, TournamentRecordStatus } from '@/types/tournament';
-import {
-	RemoveButton,
-	ResendInviteButton,
-	SendInviteButton
-} from './ActionButton';
+import { RemoveButton, SendInviteButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
+import { InviteCreate } from '@/types/invite';
 
 interface TableProps {
 	records: TournamentRecord[];
 }
 
 export const TournamentTable = ({ records: records }: TableProps) => {
-	const renderActionForInvite = (status: TournamentRecordStatus) => {
+	const renderActionForInvite = (
+		status: TournamentRecordStatus,
+		inviteCreate: InviteCreate
+	) => {
 		switch (status) {
 			case TournamentRecordStatus.Sent:
-				return <ResendInviteButton />;
+				return <SendInviteButton inviteData={inviteCreate} />;
 			case TournamentRecordStatus.Rejected:
-				return <ResendInviteButton />;
+				return <SendInviteButton inviteData={inviteCreate} />;
 			case TournamentRecordStatus.NotInvitedYet:
-				return <SendInviteButton />;
+				return <SendInviteButton inviteData={inviteCreate} />;
 			case TournamentRecordStatus.Accepted:
 				return <span>-</span>;
 			default:
 				return null;
 		}
 	};
+
+	// TODO: get curent user
+	const currentUser = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
 
 	return (
 		<div className="overflow-x-auto rounded-lg">
@@ -67,7 +70,10 @@ export const TournamentTable = ({ records: records }: TableProps) => {
 									/>
 								</td>
 								<td className="px-6 py-4">
-									{renderActionForInvite(record.status)}
+									{renderActionForInvite(record.status, {
+										inviteFromUID: currentUser,
+										inviteToUID: record.uid
+									})}
 								</td>
 								<td className="px-6 py-4">
 									<RemoveButton
