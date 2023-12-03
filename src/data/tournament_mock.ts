@@ -1,4 +1,4 @@
-import { Tournament, TournamentRecord, TournamentStatus } from "@/types/tournament";
+import { Tournament, TournamentRecord, TournamentRecordStatus } from "@/types/tournament";
 import { Timestamp } from "firebase/firestore";
 
 export const empty_tournament_list: Tournament[] = [];
@@ -33,7 +33,7 @@ export const demo_tournament: TournamentRecord[] = [
         uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
         username: 'betusin',
         userHash: 'Kaf674',
-        status: TournamentStatus.Sent,
+        status: TournamentRecordStatus.Sent,
         statusTimestamp: Timestamp.now()
     },
     {
@@ -41,14 +41,14 @@ export const demo_tournament: TournamentRecord[] = [
         uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
         username: 'betusin',
         userHash: 'Kaf674',
-        status: TournamentStatus.NotInvitedYet
+        status: TournamentRecordStatus.NotInvitedYet
     },
     {
         id: 'c',
         uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
         username: 'betusin',
         userHash: 'Kaf674',
-        status: TournamentStatus.Accepted,
+        status: TournamentRecordStatus.Accepted,
         statusTimestamp: Timestamp.now()
     },
     {
@@ -56,7 +56,7 @@ export const demo_tournament: TournamentRecord[] = [
         uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
         username: 'betusin',
         userHash: 'Kaf674',
-        status: TournamentStatus.Rejected,
+        status: TournamentRecordStatus.Rejected,
         statusTimestamp: Timestamp.now()
     }
 ];

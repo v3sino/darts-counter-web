@@ -1,6 +1,6 @@
 'use client';
 
-import { TournamentRecord, TournamentStatus } from '@/types/tournament';
+import { TournamentRecord, TournamentRecordStatus } from '@/types/tournament';
 import {
 	RemoveButton,
 	ResendInviteButton,
@@ -13,15 +13,15 @@ interface TableProps {
 }
 
 export const TournamentTable = ({ records: records }: TableProps) => {
-	const renderActionForInvite = (status: TournamentStatus) => {
+	const renderActionForInvite = (status: TournamentRecordStatus) => {
 		switch (status) {
-			case TournamentStatus.Sent:
+			case TournamentRecordStatus.Sent:
 				return <ResendInviteButton />;
-			case TournamentStatus.Rejected:
+			case TournamentRecordStatus.Rejected:
 				return <ResendInviteButton />;
-			case TournamentStatus.NotInvitedYet:
+			case TournamentRecordStatus.NotInvitedYet:
 				return <SendInviteButton />;
-			case TournamentStatus.Accepted:
+			case TournamentRecordStatus.Accepted:
 				return <span>-</span>;
 			default:
 				return null;
@@ -61,7 +61,9 @@ export const TournamentTable = ({ records: records }: TableProps) => {
 								<td className="px-6 py-4">#{record.inviteHash}</td>
 								<td className="px-6 py-4">
 									<StatusBadge
-										status={record.status ?? TournamentStatus.NotInvitedYet}
+										status={
+											record.status ?? TournamentRecordStatus.NotInvitedYet
+										}
 									/>
 								</td>
 								<td className="px-6 py-4">

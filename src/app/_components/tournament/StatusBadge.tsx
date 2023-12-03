@@ -1,19 +1,19 @@
-import { TournamentStatus } from '@/types/tournament';
+import { TournamentRecordStatus } from '@/types/tournament';
 
 interface StatusBadgeProps {
-	status: TournamentStatus;
+	status: TournamentRecordStatus;
 }
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
-	const getStatusColor = (status: TournamentStatus) => {
+	const getStatusColor = (status: TournamentRecordStatus) => {
 		switch (status) {
-			case TournamentStatus.Accepted:
+			case TournamentRecordStatus.Accepted:
 				return 'bg-green-500';
-			case TournamentStatus.Rejected:
+			case TournamentRecordStatus.Rejected:
 				return 'bg-red-500';
-			case TournamentStatus.Sent:
+			case TournamentRecordStatus.Sent:
 				return 'bg-blue-500';
-			case TournamentStatus.NotInvitedYet:
+			case TournamentRecordStatus.NotInvitedYet:
 				return 'bg-gray-500';
 			default:
 				return 'bg-gray-200';

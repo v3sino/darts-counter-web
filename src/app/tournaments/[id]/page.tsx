@@ -5,11 +5,11 @@ import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTourn
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import { db } from '@/firebase';
-import { convertToTournament } from '@/server/tournaments';
+import { convertToTournament, getQueryInvitesFrom } from '@/server/tournaments';
 import { Tournament } from '@/types/tournament';
-import { doc } from 'firebase/firestore';
+import { collection, doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { useDocument } from 'react-firebase-hooks/firestore';
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 
 type TournamentPageProps = {
 	params: {
@@ -24,24 +24,31 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 			snapshotListenOptions: { includeMetadataChanges: true }
 		}
 	);
+	// TODO: get currentUser ID
+	const currentUser = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
+	const [invites, invitesLoading, invitesError] = useCollection(
+		getQueryInvitesFrom(currentUser),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true }
+		}
+	);
 	const [tournamentData, setTournamentData] = useState<Tournament>();
 
 	useEffect(() => {
 		const fetchTournamentData = async () => {
-			if (tournaments != null) {
+			if (tournaments != null && invites != null) {
 				var fetchedTournamentData = await convertToTournament(
 					tournaments?.data(),
-					tournaments!.id
+					tournaments!.id,
+					invites!
 				);
-
-				console.log(fetchedTournamentData);
 
 				setTournamentData(fetchedTournamentData);
 			}
 		};
 
 		fetchTournamentData();
-	}, [tournaments]);
+	}, [tournaments, invites]);
 
 	if (error) {
 		throw Error('Data not found');

@@ -1,8 +1,6 @@
-import { getRecordByUID } from "@/server/tournaments";
-import { Timestamp } from "firebase/firestore"
 import { string, z } from "zod"
 
-export enum TournamentStatus {
+export enum TournamentRecordStatus {
     Rejected = "rejected",
     Accepted = "accepted",
     NotInvitedYet = "not invited yet",
@@ -13,8 +11,8 @@ export type TournamentRecord = {
     uid: string,
     username: string,
     inviteHash: string,
-    status: TournamentStatus,
-    statusTimestamp?: Timestamp,
+    status: TournamentRecordStatus,
+    // statusTimestamp?: Timestamp,
 }
 
 export type Tournament = {
