@@ -6,8 +6,7 @@ import SubmitButton from '@/app/_components/form/SubmitButton';
 import { TournamentCreate, TournamentSchema } from '@/types/tournament';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 export default function CreateTournamentPage() {
@@ -17,12 +16,7 @@ export default function CreateTournamentPage() {
 		handleSubmit,
 		formState: { errors, isSubmitting }
 	} = useForm<TournamentCreate>({ resolver: zodResolver(TournamentSchema) });
-	const [show, setShow] = useState(false);
 	const router = useRouter();
-
-	const handleClose = (state: boolean) => {
-		setShow(state);
-	};
 
 	const onSubmit = async (data: TournamentCreate) => {
 		// TODO: get UID of current signed in user
