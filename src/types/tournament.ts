@@ -23,6 +23,7 @@ export type Tournament = {
     organizedByUID: string,
     location: string,
     startAt: Date,
+    records: TournamentRecord[],
 }
 
 

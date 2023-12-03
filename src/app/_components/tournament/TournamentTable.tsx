@@ -9,10 +9,10 @@ import {
 import { StatusBadge } from './StatusBadge';
 
 interface TableProps {
-	tournaments: TournamentRecord[];
+	records: TournamentRecord[];
 }
 
-export const TournamentTable = ({ tournaments }: TableProps) => {
+export const TournamentTable = ({ records: records }: TableProps) => {
 	const renderActionForInvite = (status: TournamentStatus) => {
 		switch (status) {
 			case TournamentStatus.Sent:
@@ -51,7 +51,7 @@ export const TournamentTable = ({ tournaments }: TableProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{tournaments.map(tournament => (
+					{records.map(tournament => (
 						<tr
 							key={tournament.id}
 							className="border-b border-gray-700 bg-gray-800"

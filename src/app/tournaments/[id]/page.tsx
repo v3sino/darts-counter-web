@@ -1,6 +1,12 @@
+'use client';
+
+import { LoadingSpinner } from '@/app/_components/LoadingSpinner';
 import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTournamentButton';
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
-import { demo_tournament } from '@/data/tournament_mock';
+import { db } from '@/firebase';
+import { Tournament } from '@/types/tournament';
+import { doc } from 'firebase/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
 
 type TournamentPageProps = {
 	params: {
@@ -9,25 +15,45 @@ type TournamentPageProps = {
 };
 
 const TournamentPage = ({ params }: TournamentPageProps) => {
-	// TODO: create custom hook
-	// const { data, status } = useTournament();
+	const [value, loading, error] = useDocument(
+		doc(db, 'tournaments', params.id),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true }
+		}
+	);
 
-	// if (status === 'pending') {
-	// 	return <div>Loading tournament...</div>;
-	// }
+	if (error) {
+		throw Error('Data not found');
+	}
 
-	// if (data === undefined) {
-	// 	throw Error('Data not found');
-	// }
+	if (loading) {
+		return <LoadingSpinner />;
+	}
+
+	const tournamentData = value?.data() as Tournament | undefined;
 
 	return (
 		<>
-			<div className="p-12">
-				<DeleteTournamentButton id={params.id} />
-				<div className="pt-6">
-					<TournamentTable tournaments={demo_tournament} />
+			{value && (
+				<div className="p-12">
+					<h1 className="mb-8 text-4xl font-bold text-white">
+						{value.data()?.name}
+					</h1>
+					<div>
+						<span className="pr-4">Location: {value.data()?.location}</span>
+						<span className="pr-4">Start: {value.data()?.startAt.seconds}</span>
+						<DeleteTournamentButton id={params.id} />
+					</div>
+					{tournamentData?.records === undefined ||
+					tournamentData?.records.length === 0 ? (
+						<>No Users invited yet</>
+					) : (
+						<div className="pt-6">
+							<TournamentTable records={tournamentData?.records ?? []} />
+						</div>
+					)}
 				</div>
-			</div>
+			)}
 		</>
 	);
 };
