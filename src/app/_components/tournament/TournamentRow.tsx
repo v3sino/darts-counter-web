@@ -26,7 +26,7 @@ export const TournamentRow = ({ tournament }: TournamentRowProps) => {
 		>
 			<td className="px-6 py-4">{tournament.name}</td>
 			<td className="px-6 py-4">{tournament.location}</td>
-			<td className="px-6 py-4">{tournament.startAt.toDateString()}</td>
+			<td className="px-6 py-4">{`${tournament.startAt.toLocaleDateString()} at ${tournament.startAt.toLocaleTimeString()}`}</td>
 		</tr>
 	);
 };
