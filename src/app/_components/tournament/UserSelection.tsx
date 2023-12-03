@@ -29,6 +29,9 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 
 		if (response.ok) {
 			toast.success(`User added`, { duration: 2000 });
+		} else if (response.status == 409) {
+			var jsonRes = await response.json();
+			toast.error(`Cannot add: ${jsonRes.message}`);
 		} else {
 			toast.error(`Error fetching data: ${response.statusText}`);
 		}

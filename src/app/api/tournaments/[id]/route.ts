@@ -1,3 +1,4 @@
+import { AlreadyExistError } from "@/error/errors";
 import { db } from "@/firebase";
 import { getTournamentById } from "@/server/tournaments";
 import { TournamentUpdateSchema } from "@/types/tournament";
@@ -40,14 +41,19 @@ export const PUT = async (request: Request, { params: { id } }: { params: { id: 
     console.log('parsedTournament', parsedTournament);
 
     const tournamentRef = doc(db, 'tournaments', id);
-    const fetchedTrounament = TournamentUpdateSchema.parse(await getTournamentById({id: id}));
+    const fetchedTournament = TournamentUpdateSchema.parse(await getTournamentById({id: id}));
 
     parsedTournament.records?.map((record: string) => {
-      fetchedTrounament.records?.push(record);
+      if (!fetchedTournament.records?.includes(record)) {
+        fetchedTournament.records?.push(record);
+      } else {
+        console.log('already');
+        throw new AlreadyExistError('User is already in tournament');
+      }
     });
 
 
-    setDoc(tournamentRef, fetchedTrounament, { merge: true });
+    setDoc(tournamentRef, fetchedTournament, { merge: true });
     // updateDoc(tournamentRef, {records: arrayUnion(records: parsedTournament.records?[0])}, { merge: true });
 
     return Response.json(
@@ -60,8 +66,9 @@ export const PUT = async (request: Request, { params: { id } }: { params: { id: 
       );
     } catch (error) {
       if (error instanceof z.ZodError) {
-        console.log(error);
         return Response.json({ errors: error.errors }, { status: 400 });
+      } else  if (error instanceof AlreadyExistError) {
+        return Response.json({ message: error.message }, { status: 409 });
       } else {
         return Response.json({ message: 'Unexpected error' }, { status: 500 });
       }
