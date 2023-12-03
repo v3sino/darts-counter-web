@@ -23,7 +23,7 @@ export default function RootLayout({
 				<SessionProvider>
 					<div className="flex flex-col">
 						<NavBar />
-						<div className="h-screen bg-slate-900">{children}</div>
+						<div className="bg-slate-900 min-h-screen">{children}</div>
 					</div>
 				</SessionProvider>
 				<Toaster />

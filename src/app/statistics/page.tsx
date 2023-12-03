@@ -1,37 +1,75 @@
-import { getGames } from "@/server/games";
-import { Game } from "@/types/game";
+import { calculateGamesLastWeek, calculateStatistics, getGames } from '@/server/games';
+import { Game } from '@/types/game';
+import Metric from '../_components/statistics/Metric';
+import {
+	FaBullseye,
+	FaGlobe,
+	FaFireAlt,
+	FaCrosshairs,
+	FaSkull
+} from 'react-icons/fa';
+import GamesChart from '../_components/statistics/gamesChart';
 
-//refresh this page on server every hour and serve it statically to users
 export const revalidate = 3600;
 
 export default async function Stats() {
-  console.log("building");
+	console.log('building stats page');
 
-  const games: Game[] = await getGames();
+	const games: Game[] = await getGames();
+	const todayGames: Game[] = games.filter(
+		g => g.startedAt.toDate().toDateString() === new Date().toDateString()
+	);
 
-  //TODO calculate all interesting stats
-  // - number of all users
-  // - number of total games
-  // - number of games played today ?
-  // - average checkout of all games
-  // - average checkout today
-  // - average average of all games
-  // - average average today
-  // - total 180s hit
+	const stats = calculateStatistics(games);
+	const todayStats = calculateStatistics(todayGames);
 
-  //TODO nice styling of this page
+	// - number of all users ?? - probably to homepage
+	const sum = stats.averages.reduce((a, b) => a + b, 0);
+	const avg = sum / stats.averages.length || 0;
 
-  const numberOfGames = games.length;
-
-  return (
-    <main>
-      <div className="flex flex-col h-screen">
-        <h1>
-          Page with global stats / graphs - should be rendered at server and
-          somehow refreshed periodically
-        </h1>
-        <h1>Total games played: {numberOfGames}</h1>
-      </div>
-    </main>
-  );
+	return (
+		<main>
+			<div className="flex flex-col h-fit">
+				<h1 className="pt-4 text-center text-4xl text-blue-200">
+					Global app statistics
+				</h1>
+				<div className="flex flex-col flex-wrap sm:flex-row">
+					<Metric value={games.length} label="total games played">
+						<FaGlobe className="h-12 w-12" />
+					</Metric>
+					<Metric value={todayGames.length} label="games played today">
+						<FaGlobe className="h-12 w-12 text-black" />
+					</Metric>
+					<Metric value={stats.thrown180} label="total 180s thrown">
+						<FaFireAlt className="h-12 w-12" />
+					</Metric>
+					<Metric value={todayStats.thrown180} label="180s thrown today">
+						<FaFireAlt className="h-12 w-12 text-black" />
+					</Metric>
+					<Metric
+						value={stats.checkoutsHit / stats.checkoutsPossible}
+						label="checkout success rate"
+					>
+						<FaBullseye className="h-12 w-12" />
+					</Metric>
+					<Metric value={avg} label="average average in all games">
+						<FaBullseye className="h-12 w-12" />
+					</Metric>
+					<Metric value={stats.tonPlusCheckouts} label="total 100+ checkouts">
+						<FaCrosshairs className="h-12 w-12" />
+					</Metric>
+					<Metric
+						value={todayStats.tonPlusCheckouts}
+						label="100+ checkouts today"
+					>
+						<FaCrosshairs className="h-12 w-12 text-black" />
+					</Metric>
+				</div>
+        <div className="flex flex-col items-center pt-8">
+          <h2 className="text-blue-200 text-2xl text-center">Games played in last 7 days</h2>
+          <GamesChart gamesPlayed={calculateGamesLastWeek(games)}></GamesChart>
+        </div>
+			</div>
+		</main>
+	);
 }
