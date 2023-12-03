@@ -51,7 +51,11 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						<>No Users invited yet</>
 					) : (
 						<div className="pt-6">
+							{/* TODO: needs to send already the tournamentRecords to properly apply new changes */}
 							<TournamentTable records={tournamentData?.records ?? []} />
+							{tournamentData?.records.map(record => (
+								<div>{record}</div>
+							))}
 						</div>
 					)}
 				</div>

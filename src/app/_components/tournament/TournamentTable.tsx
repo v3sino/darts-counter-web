@@ -15,6 +15,7 @@ interface TableProps {
 }
 
 export const TournamentTable = ({ records: records }: TableProps) => {
+	// probably needs to listen on records or tournament doc
 	const [tournamentRecords, setTournamentRecords] = useState<
 		TournamentRecord[]
 	>([]);

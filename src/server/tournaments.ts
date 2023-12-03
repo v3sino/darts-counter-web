@@ -1,10 +1,14 @@
 import { db } from "@/firebase";
-import { Tournament, TournamentRecord, convertToTournament, convertToTournamentRecord } from "@/types/tournament";
-import { Timestamp, collection, doc, getDoc, query } from "firebase/firestore";
+import { convertToTournament, convertToTournamentRecord } from "@/types/tournament";
+import { doc, getDoc } from "firebase/firestore";
 
 type idProps = {
   id: string
 }
+
+
+// TODO: converted return data should be in some facade or so, here just basic calls to firebase
+
 
 export async function getTournamentById({ id }: idProps) {
   console.log("getting tournament by ID");
