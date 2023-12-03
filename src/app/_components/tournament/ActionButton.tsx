@@ -7,16 +7,19 @@ interface ActionButtonProps {
 	onClick: () => void;
 	bgColor: string;
 	textColor?: string;
+	type?: 'button' | 'submit' | 'reset' | undefined;
 }
 
 export const ActionButton = ({
 	label,
 	onClick,
 	bgColor,
-	textColor
+	textColor,
+	type
 }: ActionButtonProps) => {
 	return (
 		<button
+			type={type}
 			onClick={onClick}
 			className={`rounded px-4 py-2 ${textColor ?? 'text-white'} ${bgColor}`}
 		>
