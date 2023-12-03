@@ -1,18 +1,18 @@
 import { db } from "@/firebase";
+import { getTournamentById } from "@/server/tournaments";
 import { TournamentUpdateSchema } from "@/types/tournament";
-import { arrayUnion, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { z } from "zod";
 
 // get tournament by ID
 export const GET = async (_: Request, { params: { id } }: { params: { id: string } }) => {
-  // TODO: move to server?
+  const fetchedTrounament = await getTournamentById({id: id});
 
-  // TODO: implement
-  // const q = query(doc(db, "tournaments", id));
-  // const querySnapshot = await getDocs(doc(db, "tournaments", id));
-  // const tournaments = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-  return Response.json([]);
+  return Response.json(fetchedTrounament,
+		{
+			status: 200
+		}
+	);
 }
 
 export const DELETE = async (_: Request, { params: { id } }: { params: { id: string } }) => {
@@ -40,14 +40,8 @@ export const PUT = async (request: Request, { params: { id } }: { params: { id: 
     console.log('parsedTournament', parsedTournament);
 
     const tournamentRef = doc(db, 'tournaments', id);
+    const fetchedTrounament = TournamentUpdateSchema.parse(await getTournamentById({id: id}));
 
-    // TODO: move to server as getDoc()
-    const docSnap = await getDoc(tournamentRef);
-    // check existence - docSnapexists()
-    const fetchedTrounament = TournamentUpdateSchema.parse(docSnap.data());
-
-
-    console.log(parsedTournament);
     parsedTournament.records?.map((record: string) => {
       fetchedTrounament.records?.push(record);
     });

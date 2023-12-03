@@ -9,10 +9,9 @@ export enum TournamentStatus {
 }
 
 export type TournamentRecord = {
-    id: string,
     uid: string,
     username: string,
-    userHash: string,
+    inviteHash: string,
     status: TournamentStatus,
     statusTimestamp?: Timestamp,
 }
@@ -23,8 +22,46 @@ export type Tournament = {
     organizedByUID: string,
     location: string,
     startAt: Date,
-    records: TournamentRecord[],
+    records: string[],
 }
+
+//TODO: use converter instead with classes? https://firebase.google.com/docs/firestore/manage-data/add-data#custom_objects
+
+export function convertToTournament(docData: any, docId: string): Tournament {
+    if (!docData || typeof docData !== 'object') {
+        throw new Error('Invalid document data');
+    }
+
+    return {
+        id: docId,
+        name: docData.name ?? '',
+        organizedByUID: docData.organizedByUID ?? '',
+        location: docData.location ?? '',
+        startAt: docData.startAt instanceof Timestamp ? docData.startAt.toDate() : new Date(),
+        records: Array.isArray(docData.records) ? docData.records : [],
+    };
+}
+
+function getTournamentStatus(statusString: string): TournamentStatus {
+    if (Object.values(TournamentStatus).includes(statusString as TournamentStatus)) {
+        return statusString as TournamentStatus;
+    }
+    return TournamentStatus.NotInvitedYet
+}
+
+export function convertToTournamentRecord(docData: any, uid: string): TournamentRecord {
+    if (!docData || typeof docData !== 'object') {
+        throw new Error('Invalid document data');
+    }
+
+    return {
+        uid: uid,
+        username: docData.username ?? '',
+        inviteHash: docData.inviteHash ?? '',
+        status: getTournamentStatus(docData.status),
+        statusTimestamp: docData.startAt instanceof Timestamp ? docData.startAt.toDate() : new Date(),
+    };
+  }
 
 
 export const TournamentSchema = z.object({

@@ -7,12 +7,37 @@ import {
 	SendInviteButton
 } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
+import { getRecordByUID } from '@/server/tournaments';
+import { useEffect, useState } from 'react';
 
 interface TableProps {
-	records: TournamentRecord[];
+	records: string[];
 }
 
 export const TournamentTable = ({ records: records }: TableProps) => {
+	const [tournamentRecords, setTournamentRecords] = useState<
+		TournamentRecord[]
+	>([]);
+
+	useEffect(() => {
+		const fetchTournamentRecords = async () => {
+			const fetchedRecords = [];
+
+			for (const record of records) {
+				try {
+					const tournamentRecord = await getRecordByUID({ id: record });
+					fetchedRecords.push(tournamentRecord);
+				} catch (error) {
+					console.error('Error fetching record:', error);
+				}
+			}
+
+			setTournamentRecords(fetchedRecords);
+		};
+
+		fetchTournamentRecords();
+	}, [records]);
+
 	const renderActionForInvite = (status: TournamentStatus) => {
 		switch (status) {
 			case TournamentStatus.Sent:
@@ -51,28 +76,32 @@ export const TournamentTable = ({ records: records }: TableProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					{records.map(tournament => (
-						<tr
-							key={tournament.id}
-							className="border-b border-gray-700 bg-gray-800"
-						>
-							<td className="px-6 py-4">{tournament.username}</td>
-							<td className="px-6 py-4">#{tournament.userHash}</td>
-							<td className="px-6 py-4">
-								<StatusBadge status={tournament.status} />
-							</td>
-							<td className="px-6 py-4">
-								{renderActionForInvite(tournament.status)}
-							</td>
-							<td className="px-6 py-4">
-								<RemoveButton
-									onClick={() => {
-										console.log('TODO: remove user from tournament');
-									}}
-								/>
-							</td>
-						</tr>
-					))}
+					{tournamentRecords.map(record => {
+						return (
+							<tr
+								key={record.uid}
+								className="border-b border-gray-700 bg-gray-800"
+							>
+								<td className="px-6 py-4">{record.username}</td>
+								<td className="px-6 py-4">#{record.inviteHash}</td>
+								<td className="px-6 py-4">
+									<StatusBadge
+										status={record.status ?? TournamentStatus.NotInvitedYet}
+									/>
+								</td>
+								<td className="px-6 py-4">
+									{renderActionForInvite(record.status)}
+								</td>
+								<td className="px-6 py-4">
+									<RemoveButton
+										onClick={() => {
+											console.log('TODO: remove user from tournament');
+										}}
+									/>
+								</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</div>

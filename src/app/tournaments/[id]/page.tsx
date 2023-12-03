@@ -5,7 +5,7 @@ import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTourn
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import { db } from '@/firebase';
-import { Tournament } from '@/types/tournament';
+import { convertToTournament } from '@/types/tournament';
 import { doc } from 'firebase/firestore';
 import { useDocument } from 'react-firebase-hooks/firestore';
 
@@ -31,8 +31,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 		return <LoadingSpinner />;
 	}
 
-	const tournamentData = value?.data() as Tournament | undefined;
-	//TODO: use converter instead of this hack https://firebase.google.com/docs/firestore/manage-data/add-data#custom_objects
+	const tournamentData = convertToTournament(value?.data(), value!.id);
 
 	return (
 		<>
