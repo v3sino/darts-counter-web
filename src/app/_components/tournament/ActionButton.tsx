@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 interface ActionButtonProps {
 	label: string;
-	onClick: () => void;
+	onClick?: () => void;
 	bgColor: string;
 	textColor?: string;
 	type?: 'button' | 'submit' | 'reset' | undefined;
