@@ -1,11 +1,13 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
-const LoginStatus = () => {
-	const { status } = useSession();
-	if (status === 'loading') return <div>Loading...</div>;
+type LoginStatusProps = {
+	status: string;
+};
+
+const LoginStatus = ({ status }: LoginStatusProps) => {
 	if (status === 'unauthenticated') {
 		return (
 			<div className="flex space-x-4">

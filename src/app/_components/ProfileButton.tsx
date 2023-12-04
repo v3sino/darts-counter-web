@@ -1,13 +1,13 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-const ProfileButton = () => {
-	const { data, status } = useSession();
+type ProfileButtonProps = {
+	data: any;
+	status: string;
+};
 
-	if (status === 'loading') return <div>Loading...</div>;
-
+const ProfileButton = ({ data, status }: ProfileButtonProps) => {
 	return (
 		<>
 			{status == 'authenticated' && (

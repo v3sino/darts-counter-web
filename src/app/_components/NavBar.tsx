@@ -4,6 +4,7 @@ import Link from 'next/link';
 import LoginStatus from '@/app/_components/LoginStatus';
 import ProfileButton from '@/app/_components/ProfileButton';
 import { usePathname } from 'next/navigation';
+import ProfileNavbarSection from '@/app/_components/ProfileNavbarSection';
 
 const homePath = '/';
 const statisticsPath = '/statistics';
@@ -33,8 +34,7 @@ export const NavBar = () => {
 				{getLink(tournamentsPath, 'Tournaments')}
 			</div>
 			<div className="flex space-x-4">
-				<ProfileButton />
-				<LoginStatus />
+				<ProfileNavbarSection />
 			</div>
 		</div>
 	);
