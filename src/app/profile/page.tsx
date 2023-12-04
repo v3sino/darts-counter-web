@@ -1,11 +1,20 @@
 'use client';
 
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import Loading from '@/app/_components/Loading';
-import { auth } from '@/firebase';
+import { calculatePlayerStatistics, getGamesOfUser } from '@/server/games';
+import { Game } from '@/types/game';
+import Metric from '../_components/statistics/Metric';
+import {
+	FaBullseye,
+	FaGlobe,
+	FaFireAlt,
+	FaCrosshairs
+} from 'react-icons/fa';
+import ProfileStats from '../_components/statistics/ProfileStats';
 
-const Profile = async () => {
+const Profile = () => {
 	const session = useSession({
 		required: true,
 		onUnauthenticated() {
@@ -15,15 +24,13 @@ const Profile = async () => {
 
 	if (session.status === 'loading') return <Loading />;
 
+
 	return (
-		<div className="p-12">
-			<div className="text-center text-xl text-white">
+		<div className="flex h-fit flex-col">
+			<div className="p-10 text-center text-xl text-white">
 				Welcome back {session?.data?.user?.email}
 			</div>
-			<h1 className="text-center text-xl text-white">
-				Your UID is: {session?.data?.user?.uid}
-			</h1>
-			
+			<ProfileStats uid={session?.data?.user?.uid} />
 		</div>
 	);
 };

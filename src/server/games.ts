@@ -18,6 +18,37 @@ export async function getGames() {
 	return games;
 }
 
+export async function getGamesOfUser(uid: string) {
+	let games: Game[] = [];
+
+	const invitesCollection = collection(db, 'games');
+	const invitesQuery = query(invitesCollection);
+	const querySnapshot = await getDocs(invitesQuery);
+
+	querySnapshot.forEach(doc => {
+		games.push(doc.data() as Game);
+	});	
+
+	return games.filter((g) => {return g.playerUIDs.includes(uid)});
+}
+
+export function calculatePlayerStatistics(games: Game[], uid: string) {
+	const stats: Statistics = {
+		thrown180: 0,
+		thrown100: 0,
+		tonPlusCheckouts: 0,
+		checkoutsPossible: 0,
+		checkoutsHit: 0,
+		averages: []
+	};
+
+  games.forEach((game) => {
+    calculateStatisticsForOneGame(deserializeVisits(game.gameState.visits[game.playerUIDs.indexOf(uid)]), stats);
+  });
+
+	return stats;
+}
+
 export function calculateStatistics(games: Game[]) {
 	const stats: Statistics = {
 		thrown180: 0,
