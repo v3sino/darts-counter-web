@@ -11,10 +11,10 @@ const ProfileNavbarSection = () => {
 		return <div className="text-center">Loading...</div>;
 
 	return (
-		<>
+		<div className="flex space-x-4">
 			<ProfileButton data={data} status={status} />
 			<LoginStatus status={status} />
-		</>
+		</div>
 	);
 };
 

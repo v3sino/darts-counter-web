@@ -1,8 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import LoginStatus from '@/app/_components/LoginStatus';
-import ProfileButton from '@/app/_components/ProfileButton';
 import { usePathname } from 'next/navigation';
 import ProfileNavbarSection from '@/app/_components/ProfileNavbarSection';
 
@@ -26,16 +24,36 @@ export const NavBar = () => {
 			</Link>
 		);
 	};
+
 	return (
-		<div className="sticky top-0 flex justify-between bg-blue-400 p-4 text-white">
-			<div className="flex items-center space-x-4">
-				{getLink(homePath, 'Home')}
-				{getLink(statisticsPath, 'Statistics')}
-				{getLink(tournamentsPath, 'Tournaments')}
-			</div>
-			<div className="flex space-x-4">
-				<ProfileNavbarSection />
-			</div>
-		</div>
+		<>
+			<nav className="flex justify-between bg-blue-400 text-white">
+				<div className="flex hidden items-center space-x-4 p-4 md:block">
+					{getLink(homePath, 'Home')}
+					{getLink(statisticsPath, 'Statistics')}
+					{getLink(tournamentsPath, 'Tournaments')}
+				</div>
+				<div className="flex hidden space-x-4 p-4 md:block">
+					<ProfileNavbarSection />
+				</div>
+			</nav>
+
+			<nav className="bg-blue-400 md:hidden">
+				<div className="flex flex-col text-white">
+					<div className="mt-4 flex flex-col items-center">
+						<div className="py-2">{getLink(homePath, 'Home')}</div>
+						<div className="py-2">{getLink(statisticsPath, 'Statistics')}</div>
+						<div className="py-2">
+							{getLink(tournamentsPath, 'Tournaments')}
+						</div>
+					</div>
+				</div>
+				<div className="flex flex-col items-center">
+					<div className="mx-4 my-2 border-slate-200 py-2 text-left">
+						<ProfileNavbarSection />
+					</div>
+				</div>
+			</nav>
+		</>
 	);
 };
