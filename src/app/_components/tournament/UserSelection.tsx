@@ -2,7 +2,7 @@ import { db } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { ActionButton } from './ActionButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner';
 import toast from 'react-hot-toast';
 
@@ -12,6 +12,12 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 		snapshotListenOptions: { includeMetadataChanges: true }
 	});
 	const [selectedUser, setSelectedUser] = useState('');
+
+	useEffect(() => {
+		if (options && options.docs.length > 0) {
+			setSelectedUser(options.docs[0].id); // Set to the ID of the first user
+		}
+	}, [options]);
 
 	const onClick = async () => {
 		const response = await fetch(`/api/tournaments/${tournamentId}`, {

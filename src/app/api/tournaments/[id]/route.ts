@@ -35,24 +35,24 @@ export const PUT = async (request: Request, { params: { id } }: { params: { id: 
   // TODO: move to server?
   try {
     const data = await request.json();
-    console.log('dataa', data);
-    // const parsedTournament = TournamentUpdateSchema.parse(data);
-    const parsedTournament = data;
-    console.log('parsedTournament', parsedTournament);
+    const parsedTournament = TournamentUpdateSchema.parse(data);
 
     const tournamentRef = doc(db, 'tournaments', id);
     const fetchedTournament = TournamentUpdateSchema.parse(await getTournamentById({id: id}));
 
-    parsedTournament.records?.map((record: string) => {
-      if (!fetchedTournament.records?.includes(record)) {
-        fetchedTournament.records?.push(record);
-      } else {
-        console.log('already');
-        throw new AlreadyExistError('User is already in tournament');
-      }
-    });
+    if (fetchedTournament.records === undefined) {
+      fetchedTournament.records = parsedTournament.records;
+    } else {
+      parsedTournament.records?.map((record: string) => {
+        if (!fetchedTournament.records?.includes(record)) {
+          fetchedTournament.records?.push(record);
+        } else {
+          throw new AlreadyExistError('User is already in tournament');
+        }
+      });
+    }
 
-
+    // updateDoc(tournamentRef, {records: arrayUnion(records: parsedTournament.records?[0])}, { merge: true });
     setDoc(tournamentRef, fetchedTournament, { merge: true });
     // updateDoc(tournamentRef, {records: arrayUnion(records: parsedTournament.records?[0])}, { merge: true });
 
