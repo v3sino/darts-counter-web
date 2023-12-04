@@ -2,17 +2,8 @@
 
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import Loading from '@/app/_components/Loading';
-import { calculatePlayerStatistics, getGamesOfUser } from '@/server/games';
-import { Game } from '@/types/game';
-import Metric from '../_components/statistics/Metric';
-import {
-	FaBullseye,
-	FaGlobe,
-	FaFireAlt,
-	FaCrosshairs
-} from 'react-icons/fa';
 import ProfileStats from '../_components/statistics/ProfileStats';
+import { LoadingSpinner } from '@/app/_components/LoadingSpinner';
 
 const Profile = () => {
 	const session = useSession({
@@ -22,8 +13,7 @@ const Profile = () => {
 		}
 	});
 
-	if (session.status === 'loading') return <Loading />;
-
+	if (session.status === 'loading') return <LoadingSpinner />;
 
 	return (
 		<div className="flex h-fit flex-col">
