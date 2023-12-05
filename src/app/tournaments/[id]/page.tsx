@@ -10,6 +10,8 @@ import { Tournament } from '@/types/tournament';
 import { collection, doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 type TournamentPageProps = {
 	params: {
@@ -18,14 +20,20 @@ type TournamentPageProps = {
 };
 
 const TournamentPage = ({ params }: TournamentPageProps) => {
+	const session = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/signin');
+		}
+	});
+
 	const [tournaments, loading, error] = useDocument(
 		doc(db, 'tournaments', params.id),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true }
 		}
 	);
-	// TODO: get currentUser ID
-	const currentUser = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
+	const currentUser = session?.data?.user?.uid as string;
 	const [invites, invitesLoading, invitesError] = useCollection(
 		getQueryInvitesFrom(currentUser),
 		{

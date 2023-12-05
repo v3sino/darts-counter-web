@@ -6,22 +6,26 @@ import { NoTournament } from '../_components/tournament/NoTournament';
 import { TournamentList } from '../_components/tournament/TournamentList';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../_components/LoadingSpinner';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 export default function TournamentPage() {
 	// TODO: probably needs to set username manually (or implement in darts-counter :D)
 	const [tournaments, setTournaments] = useState([]);
 	const [fetching, setFetching] = useState(true);
+	const session = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/signin');
+		}
+	});
 
 	useEffect(() => {
 		const fetchData = async () => {
-			// TODO: get actual current user
-			const currentUser = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
-			const response = await fetch(
-				`/api/tournaments?uid=KafQzU4m5IhPPQDEuDjGgrCf7MC3`,
-				{
-					method: 'GET'
-				}
-			);
+			const currentUser = session?.data?.user?.uid as string;
+			const response = await fetch(`/api/tournaments?uid=${currentUser}`, {
+				method: 'GET'
+			});
 
 			if (response.ok) {
 				const fetchedTournaments = await response.json();

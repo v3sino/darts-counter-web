@@ -5,9 +5,10 @@ import FormInputLabel from '@/app/_components/form/FormInputLabel';
 import SubmitButton from '@/app/_components/form/SubmitButton';
 import { TournamentCreate, TournamentSchema } from '@/types/tournament';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 export default function CreateTournamentPage() {
 	const {
@@ -19,10 +20,15 @@ export default function CreateTournamentPage() {
 		defaultValues: { startAt: new Date().toString() }
 	});
 	const router = useRouter();
+	const session = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/signin');
+		}
+	});
 
 	const onSubmit = async (data: TournamentCreate) => {
-		// TODO: get UID of current signed in user
-		data.organizedByUID = 'KafQzU4m5IhPPQDEuDjGgrCf7MC3';
+		data.organizedByUID = session?.data?.user?.uid as string;
 
 		const response = await fetch(`/api/tournaments`, {
 			method: 'POST',
