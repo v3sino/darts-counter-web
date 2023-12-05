@@ -8,7 +8,7 @@ const ProfileNavbarSection = () => {
 	const { data, status } = useSession();
 
 	if (status === 'loading')
-		return <div className="text-center">Loading...</div>;
+		return <div className="text-center py-2">Loading...</div>;
 
 	return (
 		<div className="flex space-x-4">

@@ -2,7 +2,6 @@ import { calculatePlayerStatistics, getGamesOfUser } from '@/server/games';
 import { Game } from '@/types/game';
 import Metric from './Metric';
 import { FaBullseye, FaGlobe, FaFireAlt, FaCrosshairs } from 'react-icons/fa';
-import GamesChart from './gamesChart';
 import AvgChart from './averagesChart';
 
 type profileStatsProps = {
