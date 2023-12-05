@@ -33,8 +33,8 @@ export const NavBar = () => {
 	};
 
 	return (
-		<>
-			<nav className="flex justify-between bg-blue-400 text-white">
+		<nav className="bg-blue-400 text-white">
+			<div className="flex justify-between">
 				<div className="flex sm:hidden pl-2 items-center">
 					{isOpen ? (
 						<FaTimes
@@ -56,12 +56,12 @@ export const NavBar = () => {
 				<div className="flex space-x-4 p-4">
 					<ProfileNavbarSection />
 				</div>
-			</nav>
-			<div className={`flex-col sm:hidden ${isOpen ? 'flex' : 'hidden'} text-white bg-blue-400 border-t-2`}>
+			</div>
+			<div className={`flex-col sm:hidden ${isOpen ? 'flex' : 'hidden'} border-t-2`}>
 				{getLink(homePath, 'Home')}
 				{getLink(statisticsPath, 'Statistics')}
 				{getLink(tournamentsPath, 'Tournaments')}
 			</div>
-		</>
+		</nav>
 	);
 };
