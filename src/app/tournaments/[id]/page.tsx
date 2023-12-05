@@ -7,7 +7,7 @@ import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import { db } from '@/firebase';
 import { convertToTournament, getQueryInvitesFrom } from '@/server/tournaments';
 import { Tournament } from '@/types/tournament';
-import { collection, doc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { useSession } from 'next-auth/react';
@@ -80,7 +80,10 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
-					<UserSelection tournamentId={tournaments.id} />
+					<UserSelection
+						tournamentId={tournaments.id}
+						username={session?.data?.user?.email as string}
+					/>
 					{tournamentData?.records === undefined ||
 					tournamentData?.records.length === 0 ? (
 						<>No Users invited yet</>

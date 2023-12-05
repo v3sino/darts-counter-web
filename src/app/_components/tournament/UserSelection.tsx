@@ -6,7 +6,13 @@ import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner';
 import toast from 'react-hot-toast';
 
-export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
+export const UserSelection = ({
+	tournamentId,
+	username
+}: {
+	tournamentId: string;
+	username: string;
+}) => {
 	// TODO: fetch just these not already in tournament?
 	const [options, loading, error] = useCollection(collection(db, 'users'), {
 		snapshotListenOptions: { includeMetadataChanges: true }
@@ -51,11 +57,17 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 				id="user"
 				className='className="block sm:leading-6" w-fit rounded-md border-0 bg-white/5 p-2 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm'
 			>
-				{options?.docs.map(doc => (
-					<option key={doc.id} value={doc.id}>
-						{doc.data().username} (#{doc.data().inviteHash})
-					</option>
-				))}
+				{options?.docs.map(doc => {
+					if (doc.data().username === username) {
+						return null;
+					}
+
+					return (
+						<option key={doc.id} value={doc.id}>
+							{doc.data().username} (#{doc.data().inviteHash})
+						</option>
+					);
+				})}
 			</select>
 			<span className="ml-4">
 				<ActionButton
