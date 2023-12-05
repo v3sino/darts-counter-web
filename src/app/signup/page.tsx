@@ -24,6 +24,11 @@ const SignUp = () => {
 			);
 
 			if (createUserResult.user) {
+				await fetch('api/users', {
+					method: 'POST',
+					body: JSON.stringify(createUserResult.user)
+				});
+
 				await signIn('credentials', {
 					email: data.email,
 					password: data.password,
