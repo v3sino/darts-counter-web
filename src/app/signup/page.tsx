@@ -6,7 +6,7 @@ import { User, UserSchema } from '@/types/user';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { auth } from '@/firebase';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
 	const {
@@ -14,20 +14,6 @@ const SignUp = () => {
 		handleSubmit,
 		formState: { errors, isSubmitting }
 	} = useForm<User>({ resolver: zodResolver(UserSchema) });
-	const dialogRef = useRef<HTMLDialogElement>(null);
-	const [errorMessage, setErrorMessage] = useState('');
-
-	const openDialog = () => {
-		if (dialogRef.current) {
-			dialogRef.current.style.display = 'block';
-		}
-	};
-
-	const closeDialog = () => {
-		if (dialogRef.current) {
-			dialogRef.current.style.display = 'none';
-		}
-	};
 
 	const onSubmit = async (data: User) => {
 		try {
@@ -47,10 +33,9 @@ const SignUp = () => {
 			}
 		} catch (error: any) {
 			if (error.code === 'auth/email-already-in-use') {
-				setErrorMessage(
+				toast.error(
 					'Email address is already in use. Please use a different email.'
 				);
-				openDialog();
 			} else {
 				console.error('Error during user creation or sign-in:', error.message);
 			}
@@ -129,16 +114,6 @@ const SignUp = () => {
 						</div>
 					</div>
 				</form>
-				<dialog ref={dialogRef} className="rounded-md bg-red-200 p-10">
-					<div>{errorMessage}</div>
-					<button
-						className="rounded-md bg-red-500 p-2 text-white"
-						type="reset"
-						onClick={() => closeDialog()}
-					>
-						Close
-					</button>
-				</dialog>
 			</div>
 		</>
 	);
