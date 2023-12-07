@@ -59,13 +59,19 @@ export default function Home() {
 						/>
 						<div className="flex flex-col justify-evenly">
 							<h2 className="text-5xl">Intuitive score input</h2>
-							<p className="pt-4 w-96">No need for counting in your head. No need for searching for specific buttons. Simply press what you have thrown.</p>
+							<p className="w-96 pt-4">
+								No need for counting in your head. No need for searching for
+								specific buttons. Simply press what you have thrown.
+							</p>
 						</div>
 					</div>
 					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
-					<div className="flex flex-col justify-evenly">
+						<div className="flex flex-col justify-evenly">
 							<h2 className="text-5xl">Responsive design</h2>
-							<p className="pt-4 w-96">Latest technologies used to provide a smooth and responsive experience.</p>
+							<p className="w-96 pt-4">
+								Latest technologies used to provide a smooth and responsive
+								experience.
+							</p>
 						</div>
 						<Image
 							src="/favicon.ico"
@@ -83,13 +89,20 @@ export default function Home() {
 						/>
 						<div className="flex flex-col justify-evenly">
 							<h2 className="text-5xl">Online play support</h2>
-							<p className="pt-4 w-96">Have a friend that you want to challenge at long-distance? Invite him to an online game and you can both input scores from your devices.</p>
+							<p className="w-96 pt-4">
+								Have a friend that you want to challenge at long-distance?
+								Invite him to an online game and you can both input scores from
+								your devices.
+							</p>
 						</div>
 					</div>
 					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
-					<div className="flex flex-col justify-evenly">
+						<div className="flex flex-col justify-evenly">
 							<h2 className="text-5xl">For your best darting experience</h2>
-							<p className="pt-4 w-96">Developed by active darts players that understand your needs exactly. Do you have any feedback? Feel free to contact us.</p>
+							<p className="w-96 pt-4">
+								Developed by active darts players that understand your needs
+								exactly. Do you have any feedback? Feel free to contact us.
+							</p>
 						</div>
 						<Image
 							src="/favicon.ico"
