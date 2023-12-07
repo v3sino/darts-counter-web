@@ -6,7 +6,6 @@ import {
 	FaGlobe,
 	FaFireAlt,
 	FaCrosshairs,
-	FaSkull
 } from 'react-icons/fa';
 import GamesChart from '../_components/statistics/gamesChart';
 

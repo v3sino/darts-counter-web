@@ -50,7 +50,54 @@ export default function Home() {
 				</div>
 
 				<div className="pt-12">
-					<p>Some screenshots here why other apps suck and ours is great.</p>
+					<div className="flex flex-col justify-evenly bg-slate-700 py-16 sm:flex-row">
+						<Image
+							src="/favicon.ico"
+							width={200}
+							height={200}
+							alt="the best logo youve ever seen"
+						/>
+						<div className="flex flex-col justify-evenly">
+							<h2 className="text-5xl">Intuitive score input</h2>
+							<p className="pt-4 w-96">No need for counting in your head. No need for searching for specific buttons. Simply press what you have thrown.</p>
+						</div>
+					</div>
+					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
+					<div className="flex flex-col justify-evenly">
+							<h2 className="text-5xl">Responsive design</h2>
+							<p className="pt-4 w-96">Latest technologies used to provide a smooth and responsive experience.</p>
+						</div>
+						<Image
+							src="/favicon.ico"
+							width={200}
+							height={200}
+							alt="the best logo youve ever seen"
+						/>
+					</div>
+					<div className="flex flex-col justify-evenly bg-slate-700 py-16 sm:flex-row">
+						<Image
+							src="/favicon.ico"
+							width={200}
+							height={200}
+							alt="the best logo youve ever seen"
+						/>
+						<div className="flex flex-col justify-evenly">
+							<h2 className="text-5xl">Online play support</h2>
+							<p className="pt-4 w-96">Have a friend that you want to challenge at long-distance? Invite him to an online game and you can both input scores from your devices.</p>
+						</div>
+					</div>
+					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
+					<div className="flex flex-col justify-evenly">
+							<h2 className="text-5xl">For your best darting experience</h2>
+							<p className="pt-4 w-96">Developed by active darts players that understand your needs exactly. Do you have any feedback? Feel free to contact us.</p>
+						</div>
+						<Image
+							src="/favicon.ico"
+							width={200}
+							height={200}
+							alt="the best logo youve ever seen"
+						/>
+					</div>
 				</div>
 			</div>
 		</main>
