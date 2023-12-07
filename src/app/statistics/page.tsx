@@ -13,7 +13,6 @@ import GamesChart from '../_components/statistics/gamesChart';
 export const revalidate = 3600;
 
 export default async function Stats() {
-	console.log('building stats page');
 
 	const games: Game[] = await getGames();
 	const todayGames: Game[] = games.filter(
@@ -23,7 +22,6 @@ export default async function Stats() {
 	const stats = calculateStatistics(games);
 	const todayStats = calculateStatistics(todayGames);
 
-	// - number of all users ?? - probably to homepage
 	const sum = stats.averages.reduce((a, b) => a + b, 0);
 	const avg = sum / stats.averages.length || 0;
 

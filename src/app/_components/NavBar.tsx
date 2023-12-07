@@ -33,7 +33,7 @@ export const NavBar = () => {
 	};
 
 	return (
-		<nav className="bg-blue-400 text-white">
+		<nav className="bg-blue-400 text-white sticky top-0">
 			<div className="flex justify-between">
 				<div className="flex sm:hidden pl-2 items-center">
 					{isOpen ? (

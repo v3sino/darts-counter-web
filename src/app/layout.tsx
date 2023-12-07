@@ -4,6 +4,7 @@ import './globals.css';
 import { NavBar } from './_components/NavBar';
 import SessionProvider from '@/providers/SessionProvider';
 import { Toaster } from 'react-hot-toast';
+import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
 					<div className="flex flex-col">
 						<NavBar />
 						<div className="min-h-screen bg-slate-900">{children}</div>
+						<Footer />
 					</div>
 				</SessionProvider>
 				<Toaster />
