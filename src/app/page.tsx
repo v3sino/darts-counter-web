@@ -24,7 +24,7 @@ export default function Home() {
 							and dont skip them please dont skip them. And also please support
 							us via paypal to show your support because the devs have been
 							working tirelessly on this app and they totally didnt make it as a
-							school project previous semster.
+							school project previous semester.
 						</p>
 						<Link
 							href="https://youtu.be/9PzHhXDJ3q8?si=ImTFpB0lcOpKdnvv&t=13"
@@ -50,14 +50,24 @@ export default function Home() {
 				</div>
 
 				<div className="pt-12">
-					<div className="flex flex-col justify-evenly bg-slate-700 py-16 sm:flex-row">
-						<Image
-							src="/favicon.ico"
-							width={200}
-							height={200}
-							alt="the best logo youve ever seen"
-						/>
-						<div className="flex flex-col justify-evenly">
+					<div className="flex flex-col justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row items-center">
+						<div className="flex gap-2">
+							<Image
+								className="rounded"
+								src="/game1.jpg"
+								width={200}
+								height={200}
+								alt="game screenshot"
+							/>
+							<Image
+								className="rounded"
+								src="/game2.jpg"
+								width={200}
+								height={200}
+								alt="game screenshot 2"
+							/>
+						</div>
+						<div className="flex flex-col justify-evenly pt-2">
 							<h2 className="text-5xl">Intuitive score input</h2>
 							<p className="w-96 pt-4">
 								No need for counting in your head. No need for searching for
@@ -65,8 +75,8 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
-						<div className="flex flex-col justify-evenly">
+					<div className="flex flex-col justify-evenly py-8 pl-2 sm:flex-row items-center">
+						<div className="flex flex-col justify-evenly pb-2">
 							<h2 className="text-5xl">Responsive design</h2>
 							<p className="w-96 pt-4">
 								Latest technologies used to provide a smooth and responsive
@@ -74,20 +84,22 @@ export default function Home() {
 							</p>
 						</div>
 						<Image
-							src="/favicon.ico"
+							className="rounded"
+							src="/menu.jpg"
 							width={200}
 							height={200}
-							alt="the best logo youve ever seen"
+							alt="menu"
 						/>
 					</div>
-					<div className="flex flex-col justify-evenly bg-slate-700 py-16 sm:flex-row">
+					<div className="flex flex-col justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row items-center">
 						<Image
-							src="/favicon.ico"
+							className="rounded"
+							src="/onlineMenu.jpg"
 							width={200}
 							height={200}
-							alt="the best logo youve ever seen"
+							alt="menu with invites"
 						/>
-						<div className="flex flex-col justify-evenly">
+						<div className="flex flex-col justify-evenly pt-2">
 							<h2 className="text-5xl">Online play support</h2>
 							<p className="w-96 pt-4">
 								Have a friend that you want to challenge at long-distance?
@@ -96,8 +108,8 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-col justify-evenly py-16 sm:flex-row">
-						<div className="flex flex-col justify-evenly">
+					<div className="flex flex-col justify-evenly py-8 p-2 sm:flex-row items-center">
+						<div className="flex flex-col justify-evenly pb-2">
 							<h2 className="text-5xl">For your best darting experience</h2>
 							<p className="w-96 pt-4">
 								Developed by active darts players that understand your needs
@@ -105,10 +117,11 @@ export default function Home() {
 							</p>
 						</div>
 						<Image
-							src="/favicon.ico"
-							width={200}
+							className="rounded"
+							src="/peter.jpg"
+							width={400}
 							height={200}
-							alt="the best logo youve ever seen"
+							alt="peter wright"
 						/>
 					</div>
 				</div>
