@@ -48,7 +48,7 @@ export default function TournamentPage() {
 		};
 
 		fetchData();
-	}, []);
+	}, [session]);
 
 	return (
 		<>
@@ -57,14 +57,16 @@ export default function TournamentPage() {
 			) : (
 				<>
 					{tournaments.length == 0 && <NoTournament />}
-					<div className="p-12">
-						<div className="pb-12">
-							<TournamentList tournaments={tournaments} />
+					{tournaments.length != 0 && (
+						<div className="p-12">
+							<div className="pb-12">
+								<TournamentList tournaments={tournaments} />
+							</div>
+							<div>
+								<CreateTournamentButton />
+							</div>
 						</div>
-						<div>
-							<CreateTournamentButton />
-						</div>
-					</div>
+					)}
 				</>
 			)}
 		</>
