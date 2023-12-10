@@ -89,7 +89,10 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						<>No Users invited yet</>
 					) : (
 						<div className="pt-6">
-							<TournamentTable records={tournamentData?.records ?? []} />
+							<TournamentTable
+								records={tournamentData?.records ?? []}
+								currentUser={currentUser}
+							/>
 						</div>
 					)}
 				</div>

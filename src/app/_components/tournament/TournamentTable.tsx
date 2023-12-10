@@ -4,21 +4,16 @@ import { TournamentRecord, TournamentRecordStatus } from '@/types/tournament';
 import { RemoveButton, SendInviteButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
 import { InviteCreate } from '@/types/invite';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
 interface TableProps {
 	records: TournamentRecord[];
+	currentUser: string;
 }
 
-export const TournamentTable = ({ records: records }: TableProps) => {
-	const session = useSession({
-		required: true,
-		onUnauthenticated() {
-			redirect('/signin');
-		}
-	});
-
+export const TournamentTable = ({
+	records: records,
+	currentUser: currentUser
+}: TableProps) => {
 	const renderActionForInvite = (
 		status: TournamentRecordStatus,
 		inviteCreate: InviteCreate
@@ -36,9 +31,6 @@ export const TournamentTable = ({ records: records }: TableProps) => {
 				return null;
 		}
 	};
-
-	const currentUser = session?.data?.user?.uid as string;
-
 	return (
 		<div className="overflow-x-auto rounded-lg">
 			<table className="w-full text-left text-sm text-gray-400">
