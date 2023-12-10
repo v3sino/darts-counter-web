@@ -76,7 +76,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 					<div>
 						<span className="pr-4">Location: {tournamentData?.location}</span>
 						<span className="pr-4">
-							Start: {tournaments.data()?.startAt.seconds}
+							Start: {tournamentData?.startAt.toDateString()}
 						</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>

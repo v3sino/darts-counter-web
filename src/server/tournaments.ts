@@ -71,7 +71,7 @@ export async function convertToTournament(docData: DocumentData | undefined, doc
     name: docData.name ?? '',
     organizedByUID: docData.organizedByUID ?? '',
     location: docData.location ?? '',
-    startAt: docData.startAt instanceof Timestamp ? docData.startAt.toDate() : new Date(),
+    startAt: docData.startAt instanceof Timestamp ? new Date(docData.startAt.seconds * 1000) : new Date(),
     records: fetchedRecords,
   };
 }
