@@ -19,7 +19,7 @@ export const TournamentTable = ({
 		inviteCreate: InviteCreate
 	) => {
 		switch (status) {
-			case TournamentRecordStatus.Sent:
+			case TournamentRecordStatus.Pending:
 				return <SendInviteButton inviteData={inviteCreate} />;
 			case TournamentRecordStatus.Rejected:
 				return <SendInviteButton inviteData={inviteCreate} />;

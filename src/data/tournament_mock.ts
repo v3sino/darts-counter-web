@@ -33,7 +33,7 @@ export const demo_tournament: TournamentRecord[] = [
         uid: 'KafQzU4m5IhPPQDEuDjGgrCf7MC3',
         username: 'betusin',
         userHash: 'Kaf674',
-        status: TournamentRecordStatus.Sent,
+        status: TournamentRecordStatus.Pending,
         statusTimestamp: Timestamp.now()
     },
     {

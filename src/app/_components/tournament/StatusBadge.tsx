@@ -11,7 +11,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 				return 'bg-green-500';
 			case TournamentRecordStatus.Rejected:
 				return 'bg-red-500';
-			case TournamentRecordStatus.Sent:
+			case TournamentRecordStatus.Pending:
 				return 'bg-blue-500';
 			case TournamentRecordStatus.NotInvitedYet:
 				return 'bg-gray-500';

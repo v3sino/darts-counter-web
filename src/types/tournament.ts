@@ -4,7 +4,7 @@ export enum TournamentRecordStatus {
     Rejected = "rejected",
     Accepted = "accepted",
     NotInvitedYet = "not invited yet",
-    Sent = "sent"
+    Pending = "pending"
 }
 
 export type TournamentRecord = {
