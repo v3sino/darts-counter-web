@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../_components/LoadingSpinner';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { remapResponseWithStartAt } from '@/server/tournaments';
 
 export default function TournamentPage() {
 	// TODO: probably needs to set username manually (or implement in darts-counter :D)
@@ -28,17 +29,7 @@ export default function TournamentPage() {
 			});
 
 			if (response.ok) {
-				const fetchedTournaments = await response.json();
-
-				// TODO: probably move somewhere to a reusable place?
-				fetchedTournaments.map((tournament: { startAt: any }) => {
-					if (
-						tournament.startAt &&
-						typeof tournament.startAt.seconds === 'number'
-					) {
-						tournament.startAt = new Date(tournament.startAt.seconds * 1000); // Convert seconds to milliseconds
-					}
-				});
+				const fetchedTournaments = await remapResponseWithStartAt(response);
 
 				setTournaments(fetchedTournaments);
 				setFetching(false);

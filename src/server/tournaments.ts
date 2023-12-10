@@ -96,3 +96,17 @@ export function convertToTournamentRecord(docData: any, uid: string): Tournament
     // statusTimestamp: docData.startAt instanceof Timestamp ? docData.startAt.toDate() : new Date(),
   };
 }
+
+export async function remapResponseWithStartAt(response: Response) {
+  const fetchedTournaments = await response.json();
+
+  fetchedTournaments.map((tournament: { startAt: any }) => {
+    if (
+      tournament.startAt &&
+      typeof tournament.startAt.seconds === 'number'
+    ) {
+      tournament.startAt = new Date(tournament.startAt.seconds * 1000);
+    }
+  });
+  return fetchedTournaments;
+}
