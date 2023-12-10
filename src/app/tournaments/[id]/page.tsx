@@ -80,10 +80,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
-					<UserSelection
-						tournamentId={tournaments.id}
-						username={session?.data?.user?.email as string}
-					/>
+					<UserSelection tournamentId={tournaments.id} uid={currentUser} />
 					{tournamentData?.records === undefined ||
 					tournamentData?.records.length === 0 ? (
 						<>No Users invited yet</>
