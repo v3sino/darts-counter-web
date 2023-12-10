@@ -8,6 +8,7 @@ type ProfileButtonProps = {
 };
 
 const ProfileButton = ({ data, status }: ProfileButtonProps) => {
+	// TODO: get username by data.uid
 	return (
 		<>
 			{status == 'authenticated' && (

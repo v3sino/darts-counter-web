@@ -43,6 +43,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	const [tournamentData, setTournamentData] = useState<Tournament>();
 
 	useEffect(() => {
+		// TODO: make some random shuffle to make tournament more sense
 		const fetchTournamentData = async () => {
 			if (tournaments != null && invites != null) {
 				var fetchedTournamentData = await convertToTournament(
