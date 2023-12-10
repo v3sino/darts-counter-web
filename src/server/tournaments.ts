@@ -1,13 +1,13 @@
 import { db } from "@/firebase";
 import { Tournament, TournamentRecord, TournamentRecordStatus } from "@/types/tournament";
-import { DocumentData, Query, QueryDocumentSnapshot, QuerySnapshot, Timestamp, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { DocumentData, Query, QuerySnapshot, Timestamp, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 type idProps = {
   id: string
 }
 
 export async function getTournamentById({ id }: idProps) {
-  console.log("getting tournament by ID");
+  console.log(`getting tournament by ID ${id}`);
 
   const docSnap = await getDoc(doc(db, "tournaments", id));
   if (docSnap.exists()) {
@@ -22,23 +22,22 @@ export function getQueryInvitesFrom(inviteFromUID: string): Query<DocumentData, 
 }
 
 async function getRecordByUID(uid: string, invites:  QuerySnapshot<DocumentData, DocumentData>) {
-  console.log("getting tournament by UID");
+  console.log(`getting tournament by UID ${uid}`);
 
-  const docSnap = await getDoc(doc(db, "users", uid));
-  if (docSnap.exists()) {
-    var inviteTo = docSnap.id;
-    var docData = docSnap.data();
+  const userDocSnap = await getDoc(doc(db, "users", uid));
+  if (userDocSnap.exists()) {
+    var inviteTo = userDocSnap.id;
+    var userDocData = userDocSnap.data();
+    userDocData.status = TournamentRecordStatus.NotInvitedYet;
 
     if (invites != null) {
-      invites.docs.map(doc => {
-        if (inviteTo === doc.data().inviteToUID) {
-          docData.status = doc.data().status;
-        } else {
-          docData.status = TournamentRecordStatus.NotInvitedYet;
+      invites.docs.map(inviteDoc => {
+        if (inviteTo === inviteDoc.data().inviteToUID) {
+          userDocData.status = inviteDoc.data().status;
         }
       });
     }
-    return convertToTournamentRecord(docData, uid);
+    return convertToTournamentRecord(userDocData, uid);
   }
   throw new Error(`Document with ID ${uid} does not exist`);
 }
@@ -77,6 +76,7 @@ export async function convertToTournament(docData: DocumentData | undefined, doc
 }
 
 function convertTournamentRecordStatus(statusString: string): TournamentRecordStatus {
+  console.log(`statusString: ${statusString}`);
   if (Object.values(TournamentRecordStatus).includes(statusString as TournamentRecordStatus)) {
     return statusString as TournamentRecordStatus;
   }
@@ -84,6 +84,7 @@ function convertTournamentRecordStatus(statusString: string): TournamentRecordSt
 }
 
 export function convertToTournamentRecord(docData: any, uid: string): TournamentRecord {
+  console.log(`convertToTournamentRecord: docData: ${JSON.stringify(docData)}`)
   if (!docData || typeof docData !== 'object') {
     throw new Error('Invalid document data');
   }
