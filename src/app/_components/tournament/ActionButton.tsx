@@ -35,7 +35,6 @@ interface SpecificActionButtonProps {
 }
 
 const onSendInvite = async (inviteData: SpecificActionButtonProps) => {
-	console.log(JSON.stringify(inviteData));
 	const response = await fetch(`/api/invites`, {
 		method: 'POST',
 		body: JSON.stringify(inviteData)
@@ -54,7 +53,6 @@ export const SendInviteButton = ({
 	inviteData: SpecificActionButtonProps;
 	label?: string;
 }) => {
-	console.log(inviteData);
 	return (
 		<ActionButton
 			label={label ?? 'send invite'}
