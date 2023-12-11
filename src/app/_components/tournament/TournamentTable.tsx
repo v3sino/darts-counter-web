@@ -1,6 +1,6 @@
 'use client';
 
-import { RemoveButton, SendInviteButton } from './ActionButton';
+import { SendInviteButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
 import { Invite, InviteCreate, InviteStatus } from '@/types/invite';
 
@@ -43,9 +43,6 @@ export const TournamentTable = ({ invites: invites }: TableProps) => {
 						<th scope="col" className="px-6 py-3">
 							action
 						</th>
-						<th scope="col" className="px-6 py-3">
-							<span className="sr-only">remove</span>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,13 +64,6 @@ export const TournamentTable = ({ invites: invites }: TableProps) => {
 										inviteFromUID: invite.inviteFromUID,
 										inviteToUID: invite.inviteToUID
 									})}
-								</td>
-								<td className="px-6 py-4">
-									<RemoveButton
-										onClick={() => {
-											console.log('TODO: remove user from tournament');
-										}}
-									/>
 								</td>
 							</tr>
 						);

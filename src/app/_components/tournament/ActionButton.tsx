@@ -71,7 +71,7 @@ interface RemoveButtonProps {
 export const RemoveButton = ({ label, onClick }: RemoveButtonProps) => {
 	return (
 		<ActionButton
-			label={label ?? 'remove user from tournament'}
+			label={label ?? 'Remove user from tournament'}
 			onClick={onClick}
 			bgColor="bg-red-500"
 		/>

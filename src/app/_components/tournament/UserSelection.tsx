@@ -1,7 +1,7 @@
 import { db } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { ActionButton } from './ActionButton';
+import { ActionButton, RemoveButton } from './ActionButton';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner';
 import toast from 'react-hot-toast';
@@ -74,6 +74,13 @@ export const UserSelection = ({
 					label={'Add user to tournament'}
 					onClick={onClick}
 					bgColor={'bg-blue-400'}
+				/>
+			</span>
+			<span className="ml-4">
+				<RemoveButton
+					onClick={() => {
+						toast.error('Not implemneted yet');
+					}}
 				/>
 			</span>
 		</div>
