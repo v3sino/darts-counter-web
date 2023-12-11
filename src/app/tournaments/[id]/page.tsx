@@ -57,11 +57,11 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 		fetchTournamentData();
 	}, [tournament, invites]);
 
-	if (error) {
+	if (error || invitesError) {
 		throw Error('Data not found');
 	}
 
-	if (loading) {
+	if (loading || invitesLoading) {
 		return <LoadingSpinner />;
 	}
 
