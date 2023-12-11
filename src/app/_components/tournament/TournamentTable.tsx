@@ -49,7 +49,7 @@ export const TournamentTable = ({ invites: invites }: TableProps) => {
 					{invites.map(invite => {
 						return (
 							<tr
-								key={invite.id}
+								key={invite.inviteFromUID + invite.inviteToUID}
 								className="border-b border-gray-700 bg-gray-800"
 							>
 								<td className="px-6 py-4">{invite.inviteFrom}</td>
