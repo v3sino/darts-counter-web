@@ -51,13 +51,13 @@ export const TournamentTable = ({ invites: invites }: TableProps) => {
 	) => {
 		switch (status) {
 			case InviteStatus.Pending:
-				return <SendInviteButton inviteData={inviteCreate} />;
+				return <span>-</span>;
 			case InviteStatus.Rejected:
 				return <SendInviteButton inviteData={inviteCreate} />;
 			case InviteStatus.NotInvitedYet:
 				return <SendInviteButton inviteData={inviteCreate} />;
 			case InviteStatus.Accepted:
-				return <span>-</span>;
+				return <SendInviteButton inviteData={inviteCreate} />;
 			default:
 				return null;
 		}
