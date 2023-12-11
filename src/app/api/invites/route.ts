@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { getInviteHashFromUID } from "@/server/users";
+import { getUsernameFromUID } from "@/server/users";
 import { InviteCreateSchema, createInviteToFirestore } from "@/types/invite";
 import { addDoc, collection } from "firebase/firestore";
 import { NextRequest } from "next/server";
@@ -11,8 +11,8 @@ export const POST = async (request: NextRequest) => {
         const data = await request.json();
         const parsedInvite = InviteCreateSchema.parse(data);
 
-        const inviteFrom = await getInviteHashFromUID(parsedInvite.inviteFromUID);
-        const inviteTo = await getInviteHashFromUID(parsedInvite.inviteToUID);
+        const inviteFrom = await getUsernameFromUID(parsedInvite.inviteFromUID);
+        const inviteTo = await getUsernameFromUID(parsedInvite.inviteToUID);
         await addDoc(collection(db, "invites"), createInviteToFirestore(parsedInvite, inviteFrom, inviteTo));
 
         return Response.json(parsedInvite, {

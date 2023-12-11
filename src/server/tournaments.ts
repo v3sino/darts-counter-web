@@ -2,6 +2,7 @@ import { db } from "@/firebase";
 import { Invite, InviteStatus, inviteConverter } from "@/types/invite";
 import { Tournament, TournamentRecord } from "@/types/tournament";
 import { DocumentData, QuerySnapshot, Timestamp, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getUsernameFromUID } from "./users";
 
 type idProps = {
   id: string
@@ -68,13 +69,12 @@ async function fetchInvite(fromUID: string, toUID: string): Promise<Invite> {
   });
 
   if (invite === undefined) {
-    // TODO(betka): not UID everywhere
     // TODO(betka): validUntil?
     invite = {
       id: "something",
-      inviteFrom: fromUID,
+      inviteFrom: await getUsernameFromUID(fromUID),
       inviteFromUID: fromUID,
-      inviteTo: toUID,
+      inviteTo: await getUsernameFromUID(toUID),
       inviteToUID: toUID,
       status: InviteStatus.NotInvitedYet,
       validUntil: new Date(),

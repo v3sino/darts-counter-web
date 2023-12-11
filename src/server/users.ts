@@ -7,3 +7,10 @@ export const getInviteHashFromUID = async (uid: string) => {
     return docSnap.data().inviteHash;
   }
 }
+
+export const getUsernameFromUID = async (uid: string) => {
+  const docSnap = await getDoc(doc(db, "users", uid));
+if (docSnap.exists()) {
+  return docSnap.data().username;
+}
+}
