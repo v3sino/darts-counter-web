@@ -55,9 +55,12 @@ export async function convertToTournament(docData: DocumentData | undefined, doc
   const invites = [];
 
   if (Array.isArray(docData.records)) {
-    for (const fromUID of docData.records) {
-      for (const toUID of docData.records) {
-        if (fromUID !== toUID && fromUID.length !== 0 && toUID.length !== 0) {
+    for (let i = 0; i < docData.records.length; i++) {
+      for (let j = i + 1; j < docData.records.length; j++) {
+        const fromUID = docData.records[i];
+        const toUID = docData.records[j];
+
+        if (fromUID.length !== 0 && toUID.length !== 0) {
           console.log(fromUID, toUID);
           try {
             const invite = await fetchInvite(fromUID, toUID);
