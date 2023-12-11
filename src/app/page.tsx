@@ -32,7 +32,7 @@ export default function Home() {
 							target="_blank"
 							className="pt-6 underline"
 						>
-							If you are not convinced please watch this video an reconsider
+							If you are not convinced please watch this video and reconsider
 						</Link>
 					</div>
 					<div className="flex self-center">
@@ -50,7 +50,7 @@ export default function Home() {
 				</div>
 
 				<div className="pt-12">
-					<div className="flex flex-col justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row items-center">
+					<div className="flex flex-col items-center justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row">
 						<div className="flex gap-2">
 							<Image
 								className="rounded"
@@ -75,7 +75,7 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-col justify-evenly py-8 pl-2 sm:flex-row items-center">
+					<div className="flex flex-col items-center justify-evenly py-8 pl-2 sm:flex-row">
 						<div className="flex flex-col justify-evenly pb-2">
 							<h2 className="text-5xl">Responsive design</h2>
 							<p className="w-96 pt-4">
@@ -91,7 +91,7 @@ export default function Home() {
 							alt="menu"
 						/>
 					</div>
-					<div className="flex flex-col justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row items-center">
+					<div className="flex flex-col items-center justify-evenly bg-slate-700 py-8 pl-2 sm:flex-row">
 						<Image
 							className="rounded"
 							src="/onlineMenu.jpg"
@@ -108,7 +108,7 @@ export default function Home() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-col justify-evenly py-8 p-2 sm:flex-row items-center">
+					<div className="flex flex-col items-center justify-evenly p-2 py-8 sm:flex-row">
 						<div className="flex flex-col justify-evenly pb-2">
 							<h2 className="text-5xl">For your best darting experience</h2>
 							<p className="w-96 pt-4">
