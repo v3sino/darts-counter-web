@@ -20,7 +20,7 @@ type TournamentPageProps = {
 };
 
 const TournamentPage = ({ params }: TournamentPageProps) => {
-	const session = useSession({
+	useSession({
 		required: true,
 		onUnauthenticated() {
 			redirect('/signin');
@@ -33,7 +33,6 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 			snapshotListenOptions: { includeMetadataChanges: true }
 		}
 	);
-	const currentUser = session?.data?.user?.uid as string;
 	const [invites, invitesLoading, invitesError] = useCollection(
 		collection(db, 'invites'),
 		{
@@ -80,7 +79,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
-					<UserSelection tournamentId={tournament.id} uid={currentUser} />
+					<UserSelection tournamentId={tournament.id} />
 					{tournamentData?.invites === undefined ||
 					tournamentData?.invites.length === 0 ? (
 						<>No Users invited yet</>
