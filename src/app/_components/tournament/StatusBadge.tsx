@@ -1,4 +1,5 @@
 import { InviteStatus } from '@/types/invite';
+import { Tooltip } from 'react-tooltip';
 
 interface StatusBadgeProps {
 	status: InviteStatus;
@@ -22,12 +23,15 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 
 	return (
 		<span
-			className={`inline-block h-6 w-6 rounded-full text-white ${getStatusColor(
+			className={`inline-block h-5 w-5 rounded-full text-white ${getStatusColor(
 				status
 			)} sm:h-auto sm:w-auto sm:px-4 sm:py-1`}
 			title={status}
+			data-tooltip-id={`status-${status}-tooltip`}
+			data-tooltip-content={`Status: ${status}`}
 		>
 			<span className="hidden sm:inline">{status}</span>
+			<Tooltip id={`status-${status}-tooltip`} />
 		</span>
 	);
 };
