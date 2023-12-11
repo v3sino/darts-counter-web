@@ -44,7 +44,7 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 	}
 
 	return (
-		<div className="mt-2">
+		<div className="mt-2 flex items-center">
 			<select
 				onChange={e => setSelectedUser(e.target.value)}
 				name="user"

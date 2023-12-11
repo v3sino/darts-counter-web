@@ -49,8 +49,8 @@ export default function TournamentPage() {
 				<>
 					{tournaments.length == 0 && <NoTournament />}
 					{tournaments.length != 0 && (
-						<div className="p-12">
-							<div className="pb-12">
+						<div className="p-4 text-white sm:p-12">
+							<div className="pb-8">
 								<TournamentList tournaments={tournaments} />
 							</div>
 							<div>

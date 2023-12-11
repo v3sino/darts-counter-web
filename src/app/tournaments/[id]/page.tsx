@@ -68,14 +68,16 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	return (
 		<>
 			{tournament && (
-				<div className="p-12 text-white">
+				<div className="p-4 text-white sm:p-12">
 					<h1 className="mb-8 text-4xl font-bold">{tournament.data()?.name}</h1>
-					<div>
-						<span className="pr-4">Location: {tournamentData?.location}</span>
-						<span className="pr-4">
+					<div className="flex flex-col sm:flex-row sm:items-center">
+						<div className="sm:pr-4">Location: {tournamentData?.location}</div>
+						<div className="sm:pr-4">
 							Start: {tournamentData?.startAt.toDateString()}
-						</span>
-						<DeleteTournamentButton id={params.id} />
+						</div>
+						<div className="sm:pr-4">
+							<DeleteTournamentButton id={params.id} />
+						</div>
 					</div>
 					<UserSelection tournamentId={tournament.id} />
 					{tournamentData?.invites === undefined ||
