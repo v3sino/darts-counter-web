@@ -22,9 +22,12 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 
 	return (
 		<span
-			className={`rounded-full px-4 py-1 text-white ${getStatusColor(status)}`}
+			className={`inline-block h-6 w-6 rounded-full text-white ${getStatusColor(
+				status
+			)} sm:h-auto sm:w-auto sm:px-4 sm:py-1`}
+			title={status}
 		>
-			{status}
+			<span className="hidden sm:inline">{status}</span>
 		</span>
 	);
 };
