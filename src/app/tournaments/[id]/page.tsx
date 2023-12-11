@@ -68,10 +68,8 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	return (
 		<>
 			{tournament && (
-				<div className="p-12">
-					<h1 className="mb-8 text-4xl font-bold text-white">
-						{tournament.data()?.name}
-					</h1>
+				<div className="p-12 text-white">
+					<h1 className="mb-8 text-4xl font-bold">{tournament.data()?.name}</h1>
 					<div>
 						<span className="pr-4">Location: {tournamentData?.location}</span>
 						<span className="pr-4">
