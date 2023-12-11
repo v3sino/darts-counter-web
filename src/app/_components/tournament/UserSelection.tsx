@@ -19,7 +19,7 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 		}
 	}, [options]);
 
-	const onClick = async () => {
+	const onAddClick = async () => {
 		const response = await fetch(`/api/tournaments/${tournamentId}`, {
 			method: 'PUT',
 			body: JSON.stringify({ records: [selectedUser] })
@@ -62,17 +62,17 @@ export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 			<span className="ml-4">
 				<ActionButton
 					label={'Add user to tournament'}
-					onClick={onClick}
+					onClick={onAddClick}
 					bgColor={'bg-blue-400'}
 				/>
 			</span>
-			<span className="ml-4">
+			{/* <span className="ml-4">
 				<RemoveButton
 					onClick={() => {
 						toast.error('Not implemneted yet');
 					}}
 				/>
-			</span>
+			</span> */}
 		</div>
 	);
 };
