@@ -1,12 +1,19 @@
 import { Timestamp } from "firebase/firestore"
 import { z } from "zod"
 
+export enum InviteStatus {
+    Rejected = "rejected",
+    Accepted = "accepted",
+    NotInvitedYet = "not invited yet",
+    Pending = "pending"
+}
+
 export type Invite = {
     inviteFrom: string,
     inviteFromUID: string,
     inviteTo: string,
     inviteToUID: string,
-    status: string,
+    status: InviteStatus,
     validUntil: Timestamp
 }
 
@@ -26,7 +33,7 @@ export const createInvite = (inviteCreate: InviteCreate, inviteFrom: string, inv
         inviteFromUID: inviteCreate.inviteFromUID,
         inviteTo: inviteTo,
         inviteToUID: inviteCreate.inviteToUID,
-        status: 'pending',
+        status: InviteStatus.Pending,
         validUntil: Timestamp.fromDate(date),
     }
     return invite;
