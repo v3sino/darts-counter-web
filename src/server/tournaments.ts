@@ -1,4 +1,5 @@
 import { db } from "@/firebase";
+import { Invite, InviteStatus, inviteConverter } from "@/types/invite";
 import { Tournament, TournamentRecord, TournamentRecordStatus } from "@/types/tournament";
 import { DocumentData, Query, QuerySnapshot, Timestamp, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
@@ -21,7 +22,7 @@ export function getQueryInvitesFrom(inviteFromUID: string): Query<DocumentData, 
   return q;
 }
 
-async function getRecordByUID(uid: string, invites:  QuerySnapshot<DocumentData, DocumentData>) {
+async function getRecordByUID(uid: string, invitesCollection:  QuerySnapshot<DocumentData, DocumentData>) {
   console.log(`getting tournament by UID ${uid}`);
 
   const userDocSnap = await getDoc(doc(db, "users", uid));
@@ -30,8 +31,8 @@ async function getRecordByUID(uid: string, invites:  QuerySnapshot<DocumentData,
     var userDocData = userDocSnap.data();
     userDocData.status = TournamentRecordStatus.NotInvitedYet;
 
-    if (invites != null) {
-      invites.docs.map(inviteDoc => {
+    if (invitesCollection != null) {
+      invitesCollection.docs.map(inviteDoc => {
         if (inviteTo === inviteDoc.data().inviteToUID) {
           userDocData.status = inviteDoc.data().status;
         }
@@ -45,22 +46,26 @@ async function getRecordByUID(uid: string, invites:  QuerySnapshot<DocumentData,
 // TODO: use converter instead with classes? https://firebase.google.com/docs/firestore/manage-data/add-data#custom_objects
 // TODO: move to convert or so?
 
-export async function convertToTournament(docData: DocumentData | undefined, docId: string, invites:  QuerySnapshot<DocumentData, DocumentData>): Promise<Tournament> {
+export async function convertToTournament(docData: DocumentData | undefined, docId: string, invitesCollection:  QuerySnapshot<DocumentData, DocumentData>): Promise<Tournament> {
   if (!docData || typeof docData !== 'object') {
     throw new Error('Invalid document data');
   }
 
-  const fetchedRecords = [];
+  const fetchedRecords: TournamentRecord[] = [];
+  const invites = [];
 
   if (Array.isArray(docData.records)) {
-    for (const uid of docData.records) {
-      try {
-        if (uid.length !== 0) {
-            const tournamentRecord = await getRecordByUID(uid, invites);
-            fetchedRecords.push(tournamentRecord);
+    for (const fromUID of docData.records) {
+      for (const toUID of docData.records) {
+        if (fromUID !== toUID && fromUID.length !== 0 && toUID.length !== 0) {
+          console.log(fromUID, toUID);
+          try {
+            const invite = await fetchInvite(fromUID, toUID);
+            invites.push(invite);
+          } catch (error) {
+            console.error('Error fetching record:', error);
+          }
         }
-      } catch (error) {
-          console.error('Error fetching record:', error);
       }
     }
   }
@@ -72,11 +77,40 @@ export async function convertToTournament(docData: DocumentData | undefined, doc
     location: docData.location ?? '',
     startAt: docData.startAt instanceof Timestamp ? new Date(docData.startAt.seconds * 1000) : new Date(),
     records: fetchedRecords,
+    invites: invites,
   };
 }
 
+async function fetchInvite(fromUID: string, toUID: string): Promise<Invite> {
+  const invitesRef = collection(db, 'invites');
+  const q = query(invitesRef, where('inviteFromUID', '==', fromUID), where('inviteToUID', '==', toUID));
+  const querySnapshot = await getDocs(q);
+
+  var invite;
+
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+    invite = inviteConverter.fromFirestore(doc);
+  });
+
+  if (invite === undefined) {
+    // TODO(betka): not UID everywhere
+    // TODO(betka): validUntil?
+    invite = {
+      id: "something",
+      inviteFrom: fromUID,
+      inviteFromUID: fromUID,
+      inviteTo: toUID,
+      inviteToUID: toUID,
+      status: InviteStatus.NotInvitedYet,
+      validUntil: new Date(),
+    };
+  }
+
+  return invite;
+}
+
 function convertTournamentRecordStatus(statusString: string): TournamentRecordStatus {
-  console.log(`statusString: ${statusString}`);
   if (Object.values(TournamentRecordStatus).includes(statusString as TournamentRecordStatus)) {
     return statusString as TournamentRecordStatus;
   }
@@ -84,7 +118,6 @@ function convertTournamentRecordStatus(statusString: string): TournamentRecordSt
 }
 
 export function convertToTournamentRecord(docData: any, uid: string): TournamentRecord {
-  console.log(`convertToTournamentRecord: docData: ${JSON.stringify(docData)}`)
   if (!docData || typeof docData !== 'object') {
     throw new Error('Invalid document data');
   }

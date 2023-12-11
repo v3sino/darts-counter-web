@@ -1,4 +1,5 @@
 import { string, z } from "zod"
+import { Invite } from "./invite";
 
 export enum TournamentRecordStatus {
     Rejected = "rejected",
@@ -22,6 +23,7 @@ export type Tournament = {
     location: string,
     startAt: Date,
     records: TournamentRecord[],
+    invites: Invite[],
 }
 
 export const TournamentSchema = z.object({

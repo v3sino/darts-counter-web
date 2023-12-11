@@ -1,31 +1,26 @@
 'use client';
 
-import { TournamentRecord, TournamentRecordStatus } from '@/types/tournament';
 import { RemoveButton, SendInviteButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
-import { InviteCreate } from '@/types/invite';
+import { Invite, InviteCreate, InviteStatus } from '@/types/invite';
 
 interface TableProps {
-	records: TournamentRecord[];
-	currentUser: string;
+	invites: Invite[];
 }
 
-export const TournamentTable = ({
-	records: records,
-	currentUser: currentUser
-}: TableProps) => {
+export const TournamentTable = ({ invites: invites }: TableProps) => {
 	const renderActionForInvite = (
-		status: TournamentRecordStatus,
+		status: InviteStatus,
 		inviteCreate: InviteCreate
 	) => {
 		switch (status) {
-			case TournamentRecordStatus.Pending:
+			case InviteStatus.Pending:
 				return <SendInviteButton inviteData={inviteCreate} />;
-			case TournamentRecordStatus.Rejected:
+			case InviteStatus.Rejected:
 				return <SendInviteButton inviteData={inviteCreate} />;
-			case TournamentRecordStatus.NotInvitedYet:
+			case InviteStatus.NotInvitedYet:
 				return <SendInviteButton inviteData={inviteCreate} />;
-			case TournamentRecordStatus.Accepted:
+			case InviteStatus.Accepted:
 				return <span>-</span>;
 			default:
 				return null;
@@ -37,10 +32,10 @@ export const TournamentTable = ({
 				<thead className="bg-gray-700 text-xs uppercase text-gray-400">
 					<tr>
 						<th scope="col" className="px-6 py-3">
-							username
+							from
 						</th>
 						<th scope="col" className="px-6 py-3">
-							userhash
+							to
 						</th>
 						<th scope="col" className="px-6 py-3">
 							invite status
@@ -54,25 +49,23 @@ export const TournamentTable = ({
 					</tr>
 				</thead>
 				<tbody>
-					{records.map(record => {
+					{invites.map(invite => {
 						return (
 							<tr
-								key={record.uid}
+								key={invite.id}
 								className="border-b border-gray-700 bg-gray-800"
 							>
-								<td className="px-6 py-4">{record.username}</td>
-								<td className="px-6 py-4">#{record.inviteHash}</td>
+								<td className="px-6 py-4">{invite.inviteFrom}</td>
+								<td className="px-6 py-4">{invite.inviteTo}</td>
 								<td className="px-6 py-4">
 									<StatusBadge
-										status={
-											record.status ?? TournamentRecordStatus.NotInvitedYet
-										}
+										status={invite.status ?? InviteStatus.NotInvitedYet}
 									/>
 								</td>
 								<td className="px-6 py-4">
-									{renderActionForInvite(record.status, {
-										inviteFromUID: currentUser,
-										inviteToUID: record.uid
+									{renderActionForInvite(invite.status, {
+										inviteFromUID: invite.inviteFromUID,
+										inviteToUID: invite.inviteToUID
 									})}
 								</td>
 								<td className="px-6 py-4">

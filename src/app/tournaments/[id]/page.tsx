@@ -5,9 +5,9 @@ import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTourn
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import { db } from '@/firebase';
-import { convertToTournament, getQueryInvitesFrom } from '@/server/tournaments';
+import { convertToTournament } from '@/server/tournaments';
 import { Tournament } from '@/types/tournament';
-import { doc } from 'firebase/firestore';
+import { collection, doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { useSession } from 'next-auth/react';
@@ -27,7 +27,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 		}
 	});
 
-	const [tournaments, loading, error] = useDocument(
+	const [tournament, loading, error] = useDocument(
 		doc(db, 'tournaments', params.id),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true }
@@ -35,7 +35,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	);
 	const currentUser = session?.data?.user?.uid as string;
 	const [invites, invitesLoading, invitesError] = useCollection(
-		getQueryInvitesFrom(currentUser),
+		collection(db, 'invites'),
 		{
 			snapshotListenOptions: { includeMetadataChanges: true }
 		}
@@ -43,12 +43,11 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 	const [tournamentData, setTournamentData] = useState<Tournament>();
 
 	useEffect(() => {
-		// TODO: make some random shuffle to make tournament more sense
 		const fetchTournamentData = async () => {
-			if (tournaments != null && invites != null) {
+			if (tournament != null && invites != null) {
 				var fetchedTournamentData = await convertToTournament(
-					tournaments?.data(),
-					tournaments!.id,
+					tournament?.data(),
+					tournament!.id,
 					invites!
 				);
 
@@ -57,7 +56,7 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 		};
 
 		fetchTournamentData();
-	}, [tournaments, invites]);
+	}, [tournament, invites]);
 
 	if (error) {
 		throw Error('Data not found');
@@ -69,10 +68,10 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 
 	return (
 		<>
-			{tournaments && (
+			{tournament && (
 				<div className="p-12">
 					<h1 className="mb-8 text-4xl font-bold text-white">
-						{tournaments.data()?.name}
+						{tournament.data()?.name}
 					</h1>
 					<div>
 						<span className="pr-4">Location: {tournamentData?.location}</span>
@@ -81,16 +80,13 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						</span>
 						<DeleteTournamentButton id={params.id} />
 					</div>
-					<UserSelection tournamentId={tournaments.id} uid={currentUser} />
-					{tournamentData?.records === undefined ||
-					tournamentData?.records.length === 0 ? (
+					<UserSelection tournamentId={tournament.id} uid={currentUser} />
+					{tournamentData?.invites === undefined ||
+					tournamentData?.invites.length === 0 ? (
 						<>No Users invited yet</>
 					) : (
 						<div className="pt-6">
-							<TournamentTable
-								records={tournamentData?.records ?? []}
-								currentUser={currentUser}
-							/>
+							<TournamentTable invites={tournamentData?.invites ?? []} />
 						</div>
 					)}
 				</div>
