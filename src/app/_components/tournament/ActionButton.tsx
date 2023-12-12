@@ -1,5 +1,8 @@
 'use client';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast from 'react-hot-toast';
 
 interface ActionButtonProps {
@@ -8,6 +11,7 @@ interface ActionButtonProps {
 	bgColor: string;
 	textColor?: string;
 	type?: 'button' | 'submit' | 'reset' | undefined;
+	icon?: IconProp;
 }
 
 export const ActionButton = ({
@@ -15,7 +19,8 @@ export const ActionButton = ({
 	onClick,
 	bgColor,
 	textColor,
-	type
+	type,
+	icon
 }: ActionButtonProps) => {
 	return (
 		<button
@@ -23,6 +28,7 @@ export const ActionButton = ({
 			onClick={onClick}
 			className={`rounded px-4 py-2 ${textColor ?? 'text-white'} ${bgColor}`}
 		>
+			{icon !== undefined && <FontAwesomeIcon icon={icon} className="mr-2" />}
 			{label}
 		</button>
 	);
@@ -71,6 +77,7 @@ interface RemoveButtonProps {
 export const RemoveButton = ({ label, onClick }: RemoveButtonProps) => {
 	return (
 		<ActionButton
+			icon={faTrashAlt}
 			label={label ?? 'Remove user from tournament'}
 			onClick={onClick}
 			bgColor="bg-red-500"
