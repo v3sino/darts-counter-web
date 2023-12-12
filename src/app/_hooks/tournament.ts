@@ -8,6 +8,10 @@ import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { Tournament } from '@/types/tournament';
 import { Game, GameStatesMap } from '@/types/game';
 
+const firebaseFetchOptions = {
+	snapshotListenOptions: { includeMetadataChanges: true }
+};
+
 function useTournamentData(tournamentId: string) {
 	useSession({
 		required: true,
@@ -18,23 +22,17 @@ function useTournamentData(tournamentId: string) {
 
 	const [tournament, tournamentLoading, tournamentError] = useDocument(
 		doc(db, 'tournaments', tournamentId),
-		{
-			snapshotListenOptions: { includeMetadataChanges: true }
-		}
+		firebaseFetchOptions
 	);
 
 	const [invites, invitesLoading, invitesError] = useCollection(
 		collection(db, 'invites'),
-		{
-			snapshotListenOptions: { includeMetadataChanges: true }
-		}
+		firebaseFetchOptions
 	);
 
 	const [games, gamesLoading, gamesError] = useCollection(
 		collection(db, 'games'),
-		{
-			snapshotListenOptions: { includeMetadataChanges: true }
-		}
+		firebaseFetchOptions
 	);
 
 	// TODO: handle errors
