@@ -11,7 +11,6 @@ import { redirect } from 'next/navigation';
 import { remapResponseWithStartAt } from '@/server/tournaments';
 
 export default function TournamentPage() {
-	// TODO: probably needs to set username manually (or implement in darts-counter :D)
 	const [tournaments, setTournaments] = useState([]);
 	const [fetching, setFetching] = useState(true);
 	const session = useSession({
