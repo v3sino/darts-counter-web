@@ -1,5 +1,6 @@
 import { string, z } from 'zod';
-import { Invite } from './invite';
+import { Invite, inviteConverter } from './invite';
+import { DocumentSnapshot, Timestamp } from 'firebase/firestore';
 
 export enum TournamentRecordStatus {
 	Rejected = 'rejected',
@@ -46,3 +47,31 @@ export const TournamentUpdateSchema = z.object({
 });
 
 export type TournamentUpdate = z.infer<typeof TournamentUpdateSchema>;
+
+export const tournamentConverter = {
+	toFirestore: (tournament: Tournament) => {
+		return {
+			id: tournament.id,
+			name: tournament.name,
+			organizedByUID: tournament.organizedByUID,
+			location: tournament.location,
+			startAt: Timestamp.fromDate(tournament.startAt),
+			records: tournament.records,
+			invites: tournament.invites.map(invite =>
+				inviteConverter.toFirestore(invite)
+			)
+		};
+	},
+	fromFirestore: (snapshot: DocumentSnapshot) => {
+		const tournament = snapshot.data();
+		return {
+			id: snapshot.id,
+			name: tournament?.name,
+			organizedByUID: tournament?.organizedByUID,
+			location: tournament?.location,
+			startAt: new Date(tournament?.startAt.seconds * 1000),
+			records: tournament?.records,
+			invites: []
+		};
+	}
+};

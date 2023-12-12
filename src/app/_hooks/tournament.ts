@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { doc, collection } from 'firebase/firestore';
+import { doc, collection, where, query } from 'firebase/firestore';
 import { convertToTournament } from '@/server/tournaments';
 import { db } from '@/firebase';
 import { redirect } from 'next/navigation';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
-import { Tournament } from '@/types/tournament';
+import { Tournament, tournamentConverter } from '@/types/tournament';
 import { Game, GameStatesMap } from '@/types/game';
 
 const firebaseFetchOptions = {
@@ -13,7 +13,7 @@ const firebaseFetchOptions = {
 };
 
 function useTournamentData(tournamentId: string) {
-	useSession({
+	const session = useSession({
 		required: true,
 		onUnauthenticated() {
 			redirect('/signin');
@@ -82,7 +82,15 @@ function useTournamentData(tournamentId: string) {
 
 		fetchTournamentData();
 		fetchGameStates();
-	}, [tournament, invites, games, invitesError, gamesError, tournamentError]);
+	}, [
+		tournament,
+		invites,
+		games,
+		invitesError,
+		gamesError,
+		tournamentError,
+		session
+	]);
 
 	return {
 		tournamentData,
@@ -91,5 +99,35 @@ function useTournamentData(tournamentId: string) {
 		error
 	};
 }
+
+export const useTournamentsByUID = () => {
+	const session = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/signin');
+		}
+	});
+	const uid = session?.data?.user?.uid as string;
+	const [tournamentCollection, tournamentsLoading, tournamentsError] =
+		useCollection(
+			query(collection(db, 'tournaments'), where('organizedByUID', '==', uid)),
+			firebaseFetchOptions
+		);
+	const [tournaments, setTournaments] = useState<Tournament[]>([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			var convertedTournaments: Tournament[] = [];
+			tournamentCollection?.forEach(doc => {
+				convertedTournaments.push(tournamentConverter.fromFirestore(doc));
+			});
+			setTournaments(convertedTournaments);
+		};
+
+		fetchData();
+	}, [session, tournamentCollection]);
+
+	return { tournaments, tournamentsLoading, tournamentsError };
+};
 
 export default useTournamentData;

@@ -4,50 +4,25 @@ import toast from 'react-hot-toast';
 import { CreateTournamentButton } from '../_components/tournament/CreateTournamentButton';
 import { NoTournament } from '../_components/tournament/NoTournament';
 import { TournamentList } from '../_components/tournament/TournamentList';
-import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../_components/LoadingSpinner';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-import { remapResponseWithStartAt } from '@/server/tournaments';
+import { useTournamentsByUID } from '../_hooks/tournament';
 
 export default function TournamentPage() {
-	const [tournaments, setTournaments] = useState([]);
-	const [fetching, setFetching] = useState(true);
-	const session = useSession({
-		required: true,
-		onUnauthenticated() {
-			redirect('/signin');
-		}
-	});
+	const { tournaments, tournamentsLoading, tournamentsError } =
+		useTournamentsByUID();
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const currentUser = session?.data?.user?.uid as string;
-			const response = await fetch(`/api/tournaments?uid=${currentUser}`, {
-				method: 'GET'
-			});
-
-			if (response.ok) {
-				const fetchedTournaments = await remapResponseWithStartAt(response);
-
-				setTournaments(fetchedTournaments);
-				setFetching(false);
-			} else {
-				toast.error(`Error fetching data: ${response.statusText}`);
-			}
-		};
-
-		fetchData();
-	}, [session]);
+	if (tournamentsError) {
+		toast.error(tournamentsError.message);
+	}
 
 	return (
 		<>
-			{fetching ? (
+			{tournaments === undefined || tournamentsLoading ? (
 				<LoadingSpinner />
 			) : (
 				<>
-					{tournaments.length == 0 && <NoTournament />}
-					{tournaments.length != 0 && (
+					{tournaments?.length == 0 && <NoTournament />}
+					{tournaments?.length != 0 && (
 						<div className="p-4 text-white sm:p-12">
 							<div className="pb-8">
 								<TournamentList tournaments={tournaments} />
