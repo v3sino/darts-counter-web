@@ -4,7 +4,8 @@ import { LoadingSpinner } from '@/app/_components/LoadingSpinner';
 import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTournamentButton';
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { UserSelection } from '@/app/_components/tournament/UserSelection';
-import useTournamentData from '@/app/_hooks/tournament';
+import { useTournamentData } from '@/app/_hooks/tournament';
+
 import toast from 'react-hot-toast';
 
 type TournamentPageProps = {

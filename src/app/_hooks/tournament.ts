@@ -12,7 +12,7 @@ const firebaseFetchOptions = {
 	snapshotListenOptions: { includeMetadataChanges: true }
 };
 
-function useTournamentData(tournamentId: string) {
+export const useTournamentData = (tournamentId: string) => {
 	const session = useSession({
 		required: true,
 		onUnauthenticated() {
@@ -98,7 +98,7 @@ function useTournamentData(tournamentId: string) {
 		loading: tournamentLoading || invitesLoading || gamesLoading,
 		error
 	};
-}
+};
 
 export const useTournamentsByUID = () => {
 	const session = useSession({
@@ -129,5 +129,3 @@ export const useTournamentsByUID = () => {
 
 	return { tournaments, tournamentsLoading, tournamentsError };
 };
-
-export default useTournamentData;
