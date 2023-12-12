@@ -6,6 +6,10 @@ import { db } from '@/firebase';
 import { redirect } from 'next/navigation';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { Tournament } from '@/types/tournament';
+import { Game } from '@/types/game';
+
+// TODO: move to types
+type GameStatesMap = Record<string, string>;
 
 function useTournamentData(tournamentId: string) {
 	useSession({
@@ -28,7 +32,18 @@ function useTournamentData(tournamentId: string) {
 			snapshotListenOptions: { includeMetadataChanges: true }
 		}
 	);
+
+	const [games, gamesLoading, gamesError] = useCollection(
+		collection(db, 'games'),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true }
+		}
+	);
+
+	// TODO: handle errors
+
 	const [tournamentData, setTournamentData] = useState<Tournament>();
+	const [gameStates, setGameStates] = useState<GameStatesMap>({});
 
 	useEffect(() => {
 		const fetchTournamentData = async () => {
@@ -42,15 +57,32 @@ function useTournamentData(tournamentId: string) {
 			}
 		};
 
+		const fetchGameStates = async () => {
+			const newGameStates: GameStatesMap = {};
+			games?.docs.forEach(gameDoc => {
+				const game = gameDoc.data() as Game;
+				if (game.gameState.legEnded) {
+					if (game.gameState.currentPlayer == 0) {
+						newGameStates[gameDoc.id] = '1:0';
+					} else {
+						newGameStates[gameDoc.id] = '0:1';
+					}
+				} else {
+					newGameStates[gameDoc.id] = 'game in progress';
+				}
+			});
+			setGameStates(newGameStates);
+		};
+
 		fetchTournamentData();
-	}, [tournament, invites]);
+		fetchGameStates();
+	}, [tournament, invites, games]);
 
 	return {
 		tournamentData,
-		tournamentLoading,
+		gameStates,
+		loading: tournamentLoading || invitesLoading || gamesLoading,
 		tournamentError,
-		invites,
-		invitesLoading,
 		invitesError
 	};
 }

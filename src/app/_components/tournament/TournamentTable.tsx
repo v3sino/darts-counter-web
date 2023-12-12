@@ -1,46 +1,19 @@
 'use client';
 
-import { collection } from 'firebase/firestore';
 import { SendInviteButton } from './ActionButton';
 import { StatusBadge } from './StatusBadge';
 import { Invite, InviteCreate, InviteStatus } from '@/types/invite';
-import { db } from '@/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { useEffect, useState } from 'react';
-import { Game } from '@/types/game';
+import { GameStatesMap } from '@/types/game';
 
 interface TableProps {
 	invites: Invite[];
+	gameStates: GameStatesMap;
 }
 
-type GameStatesMap = Record<string, string>;
-
-export const TournamentTable = ({ invites: invites }: TableProps) => {
-	const [games, gamesLoading, gamesError] = useCollection(
-		collection(db, 'games'),
-		{
-			snapshotListenOptions: { includeMetadataChanges: true }
-		}
-	);
-	const [gameStates, setGameStates] = useState<GameStatesMap>({});
-
-	useEffect(() => {
-		const newGameStates: GameStatesMap = {};
-		games?.docs.forEach(gameDoc => {
-			const game = gameDoc.data() as Game;
-			if (game.gameState.legEnded) {
-				if (game.gameState.currentPlayer == 0) {
-					newGameStates[gameDoc.id] = '1:0';
-				} else {
-					newGameStates[gameDoc.id] = '0:1';
-				}
-			} else {
-				newGameStates[gameDoc.id] = 'game in progress';
-			}
-		});
-		setGameStates(newGameStates);
-	}, [games]);
-
+export const TournamentTable = ({
+	invites: invites,
+	gameStates: gameStates
+}: TableProps) => {
 	const getGameScoreFromInviteId = (inviteId: string) => {
 		return gameStates[inviteId] || 'not started yet';
 	};

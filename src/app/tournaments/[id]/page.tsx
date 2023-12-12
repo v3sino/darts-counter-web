@@ -13,20 +13,14 @@ type TournamentPageProps = {
 };
 
 const TournamentPage = ({ params }: TournamentPageProps) => {
-	const {
-		tournamentData,
-		tournamentLoading,
-		tournamentError,
-		invites,
-		invitesLoading,
-		invitesError
-	} = useTournamentData(params.id);
+	const { tournamentData, gameStates, loading, tournamentError, invitesError } =
+		useTournamentData(params.id);
 
 	if (tournamentError || invitesError) {
 		throw Error('Data not found');
 	}
 
-	if (tournamentLoading || invitesLoading) {
+	if (loading) {
 		return <LoadingSpinner />;
 	}
 
@@ -50,7 +44,10 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 						<>No Users invited yet</>
 					) : (
 						<div className="pt-6">
-							<TournamentTable invites={tournamentData?.invites ?? []} />
+							<TournamentTable
+								invites={tournamentData?.invites ?? []}
+								gameStates={gameStates}
+							/>
 						</div>
 					)}
 				</div>
