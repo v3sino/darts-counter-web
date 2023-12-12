@@ -8,7 +8,7 @@ import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { Tournament, tournamentConverter } from '@/types/tournament';
 import { Game, GameStatesMap } from '@/types/game';
 
-const firebaseFetchOptions = {
+export const firebaseFetchOptions = {
 	snapshotListenOptions: { includeMetadataChanges: true }
 };
 

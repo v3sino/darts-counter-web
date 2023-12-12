@@ -5,17 +5,19 @@ import { ActionButton, RemoveButton } from './ActionButton';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '../LoadingSpinner';
 import toast from 'react-hot-toast';
+import { firebaseFetchOptions } from '@/app/_hooks/tournament';
 
 export const UserSelection = ({ tournamentId }: { tournamentId: string }) => {
 	// TODO: fetch just these not already in tournament?
-	const [options, loading, error] = useCollection(collection(db, 'users'), {
-		snapshotListenOptions: { includeMetadataChanges: true }
-	});
+	const [options, loading, error] = useCollection(
+		collection(db, 'users'),
+		firebaseFetchOptions
+	);
 	const [selectedUser, setSelectedUser] = useState('');
 
 	useEffect(() => {
 		if (options && options.docs.length > 0) {
-			setSelectedUser(options.docs[0].id); // Set to the ID of the first user
+			setSelectedUser(options.docs[0].id);
 		}
 	}, [options]);
 
