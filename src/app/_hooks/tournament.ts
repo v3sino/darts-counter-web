@@ -112,7 +112,7 @@ export const useTournamentsByUID = () => {
 			redirect('/signin');
 		}
 	});
-	const uid = session?.data?.user?.uid as string;
+	const uid = (session?.data?.user?.uid as string) ?? '';
 	const [tournamentCollection, tournamentsLoading, tournamentsError] =
 		useCollection(
 			query(collection(db, 'tournaments'), where('organizedByUID', '==', uid)),
