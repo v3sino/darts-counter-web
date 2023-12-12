@@ -95,7 +95,12 @@ export const useTournamentData = (tournamentId: string) => {
 	return {
 		tournamentData,
 		gameStates,
-		loading: tournamentLoading || invitesLoading || gamesLoading,
+		loading:
+			tournamentLoading ||
+			invitesLoading ||
+			gamesLoading ||
+			tournamentData === undefined ||
+			invites === undefined,
 		error
 	};
 };
