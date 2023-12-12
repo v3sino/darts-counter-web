@@ -64,7 +64,11 @@ const TournamentPage = ({ params }: TournamentPageProps) => {
 					<UserSelection tournamentId={tournamentData.id} />
 					{tournamentData?.invites === undefined ||
 					tournamentData?.invites.length === 0 ? (
-						<>No Users invited yet</>
+						<div className="pt-8">
+							<h2 className="mb-8 text-2xl font-bold text-white">
+								No users invited yet
+							</h2>
+						</div>
 					) : (
 						<div className="pt-6">
 							<TournamentTable
