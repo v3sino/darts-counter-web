@@ -5,6 +5,13 @@ import { usePathname } from 'next/navigation';
 import ProfileNavbarSection from '@/app/_components/ProfileNavbarSection';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faChartSimple,
+	faChess,
+	faHome
+} from '@fortawesome/free-solid-svg-icons';
 
 const homePath = '/';
 const statisticsPath = '/statistics';
@@ -24,43 +31,48 @@ export const NavBar = () => {
 			: 'p-2';
 	};
 
-	const getLink = (path: string, name: string) => {
+	const getLink = (path: string, name: string, icon?: IconProp) => {
 		return (
 			<Link href={`${path}`} className={isLinkActive(path)}>
+				{icon !== undefined && <FontAwesomeIcon icon={icon} className="mr-2" />}
 				{name}
 			</Link>
 		);
 	};
 
 	return (
-		<nav className="bg-blue-400 text-white sticky top-0">
+		<nav className="sticky top-0 bg-blue-400 text-white">
 			<div className="flex justify-between">
-				<div className="flex sm:hidden pl-2 items-center">
+				<div className="flex items-center pl-2 sm:hidden">
 					{isOpen ? (
 						<FaTimes
-							className="cursor-pointer text-white text-4xl"
+							className="cursor-pointer text-4xl text-white"
 							onClick={toggleMenu}
 						/>
 					) : (
 						<FaBars
-							className="cursor-pointer text-white text-4xl"
+							className="cursor-pointer text-4xl text-white"
 							onClick={toggleMenu}
 						/>
 					)}
 				</div>
-				<div className="hidden sm:flex items-center space-x-4 p-4">
-					{getLink(homePath, 'Home')}
-					{getLink(statisticsPath, 'Statistics')}
-					{getLink(tournamentsPath, 'Tournaments')}
+				<div className="hidden items-center space-x-4 p-4 sm:flex">
+					{getLink(homePath, 'Home', faHome)}
+					{getLink(statisticsPath, 'Statistics', faChartSimple)}
+					{getLink(tournamentsPath, 'Tournaments', faChess)}
 				</div>
 				<div className="flex space-x-4 p-4">
 					<ProfileNavbarSection />
 				</div>
 			</div>
-			<div className={`flex-col sm:hidden ${isOpen ? 'flex' : 'hidden'} border-t-2`}>
-				{getLink(homePath, 'Home')}
-				{getLink(statisticsPath, 'Statistics')}
-				{getLink(tournamentsPath, 'Tournaments')}
+			<div
+				className={`flex-col sm:hidden ${
+					isOpen ? 'flex' : 'hidden'
+				} border-t-2`}
+			>
+				{getLink(homePath, 'Home', faHome)}
+				{getLink(statisticsPath, 'Statistics', faChartSimple)}
+				{getLink(tournamentsPath, 'Tournaments', faChess)}
 			</div>
 		</nav>
 	);
