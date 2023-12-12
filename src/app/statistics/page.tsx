@@ -1,18 +1,16 @@
-import { calculateGamesLastWeek, calculateStatistics, getGames } from '@/server/games';
+import {
+	calculateGamesLastWeek,
+	calculateStatistics,
+	getGames
+} from '@/server/games';
 import { Game } from '@/types/game';
 import Metric from '../_components/statistics/Metric';
-import {
-	FaBullseye,
-	FaGlobe,
-	FaFireAlt,
-	FaCrosshairs,
-} from 'react-icons/fa';
+import { FaBullseye, FaGlobe, FaFireAlt, FaCrosshairs } from 'react-icons/fa';
 import GamesChart from '../_components/statistics/gamesChart';
 
 export const revalidate = 3600;
 
 export default async function Stats() {
-
 	const games: Game[] = await getGames();
 	const todayGames: Game[] = games.filter(
 		g => g.startedAt.toDate().toDateString() === new Date().toDateString()
@@ -26,11 +24,11 @@ export default async function Stats() {
 
 	return (
 		<main>
-			<div className="flex flex-col h-fit">
+			<div className="flex h-fit flex-col">
 				<h1 className="pt-4 text-center text-4xl text-blue-200">
 					Global app statistics
 				</h1>
-				<div className="flex flex-col flex-wrap sm:flex-row">
+				<div className="flex flex-col flex-wrap xl:flex-row">
 					<Metric value={games.length} label="total games played">
 						<FaGlobe className="h-12 w-12" />
 					</Metric>
@@ -62,10 +60,12 @@ export default async function Stats() {
 						<FaCrosshairs className="h-12 w-12 text-black" />
 					</Metric>
 				</div>
-        <div className="flex flex-col items-center pt-8">
-          <h2 className="text-blue-200 text-2xl text-center">Games played in last 7 days</h2>
-          <GamesChart gamesPlayed={calculateGamesLastWeek(games)}></GamesChart>
-        </div>
+				<div className="flex flex-col items-center pt-8">
+					<h2 className="text-center text-2xl text-blue-200">
+						Games played in last 7 days
+					</h2>
+					<GamesChart gamesPlayed={calculateGamesLastWeek(games)}></GamesChart>
+				</div>
 			</div>
 		</main>
 	);
