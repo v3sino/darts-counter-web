@@ -5,6 +5,7 @@ import { DeleteTournamentButton } from '@/app/_components/tournament/DeleteTourn
 import { TournamentTable } from '@/app/_components/tournament/TournamentTable';
 import { UserSelection } from '@/app/_components/tournament/UserSelection';
 import useTournamentData from '@/app/_hooks/tournament';
+import toast from 'react-hot-toast';
 
 type TournamentPageProps = {
 	params: {
@@ -13,11 +14,12 @@ type TournamentPageProps = {
 };
 
 const TournamentPage = ({ params }: TournamentPageProps) => {
-	const { tournamentData, gameStates, loading, tournamentError, invitesError } =
-		useTournamentData(params.id);
+	const { tournamentData, gameStates, loading, error } = useTournamentData(
+		params.id
+	);
 
-	if (tournamentError || invitesError) {
-		throw Error('Data not found');
+	if (error) {
+		toast.error(error);
 	}
 
 	if (loading) {

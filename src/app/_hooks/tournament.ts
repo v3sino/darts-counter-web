@@ -35,13 +35,19 @@ function useTournamentData(tournamentId: string) {
 		firebaseFetchOptions
 	);
 
-	// TODO: handle errors
-
 	const [tournamentData, setTournamentData] = useState<Tournament>();
 	const [gameStates, setGameStates] = useState<GameStatesMap>({});
+	const [error, setError] = useState<string>('');
 
 	useEffect(() => {
 		const fetchTournamentData = async () => {
+			if (tournamentError) {
+				setError(JSON.stringify(tournamentError));
+			}
+			if (invitesError) {
+				setError(JSON.stringify(invitesError));
+			}
+
 			if (tournament != null && invites != null) {
 				var fetchedTournamentData = await convertToTournament(
 					tournament?.data(),
@@ -53,6 +59,9 @@ function useTournamentData(tournamentId: string) {
 		};
 
 		const fetchGameStates = async () => {
+			if (gamesError) {
+				setError(JSON.stringify(gamesError));
+			}
 			const newGameStates: GameStatesMap = {};
 			games?.docs.forEach(gameDoc => {
 				const game = gameDoc.data() as Game;
@@ -71,14 +80,13 @@ function useTournamentData(tournamentId: string) {
 
 		fetchTournamentData();
 		fetchGameStates();
-	}, [tournament, invites, games]);
+	}, [tournament, invites, games, invitesError, gamesError, tournamentError]);
 
 	return {
 		tournamentData,
 		gameStates,
 		loading: tournamentLoading || invitesLoading || gamesLoading,
-		tournamentError,
-		invitesError
+		error
 	};
 }
 
