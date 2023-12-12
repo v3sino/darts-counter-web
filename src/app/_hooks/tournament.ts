@@ -49,12 +49,18 @@ function useTournamentData(tournamentId: string) {
 			}
 
 			if (tournament != null && invites != null) {
-				var fetchedTournamentData = await convertToTournament(
-					tournament?.data(),
-					tournament.id,
-					invites
-				);
-				setTournamentData(fetchedTournamentData);
+				try {
+					var fetchedTournamentData = await convertToTournament(
+						tournament?.data(),
+						tournament.id,
+						invites
+					);
+					setTournamentData(fetchedTournamentData);
+				} catch (error) {
+					if (error instanceof Error) {
+						setError(error.message);
+					}
+				}
 			}
 		};
 
