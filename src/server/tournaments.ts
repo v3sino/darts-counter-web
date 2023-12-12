@@ -99,15 +99,3 @@ async function fetchInvite(fromUID: string, toUID: string): Promise<Invite> {
 
 	return invite;
 }
-
-// TODO(betka): remove this by using converter
-export async function remapResponseWithStartAt(response: Response) {
-	const fetchedTournaments = await response.json();
-
-	fetchedTournaments.map((tournament: { startAt: any }) => {
-		if (tournament.startAt && typeof tournament.startAt.seconds === 'number') {
-			tournament.startAt = new Date(tournament.startAt.seconds * 1000);
-		}
-	});
-	return fetchedTournaments;
-}
