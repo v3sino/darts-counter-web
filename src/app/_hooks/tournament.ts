@@ -6,10 +6,7 @@ import { db } from '@/firebase';
 import { redirect } from 'next/navigation';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { Tournament } from '@/types/tournament';
-import { Game } from '@/types/game';
-
-// TODO: move to types
-type GameStatesMap = Record<string, string>;
+import { Game, GameStatesMap } from '@/types/game';
 
 function useTournamentData(tournamentId: string) {
 	useSession({
