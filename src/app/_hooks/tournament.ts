@@ -50,11 +50,7 @@ function useTournamentData(tournamentId: string) {
 
 			if (tournament != null && invites != null) {
 				try {
-					var fetchedTournamentData = await convertToTournament(
-						tournament?.data(),
-						tournament.id,
-						invites
-					);
+					var fetchedTournamentData = await convertToTournament(tournament);
 					setTournamentData(fetchedTournamentData);
 				} catch (error) {
 					if (error instanceof Error) {

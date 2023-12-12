@@ -3,7 +3,7 @@ import { Invite, InviteStatus, inviteConverter } from '@/types/invite';
 import { Tournament, TournamentRecord } from '@/types/tournament';
 import {
 	DocumentData,
-	QuerySnapshot,
+	DocumentSnapshot,
 	Timestamp,
 	collection,
 	doc,
@@ -31,11 +31,10 @@ export async function getTournamentById({ id }: idProps) {
 // TODO: move to convert or so?
 
 export async function convertToTournament(
-	docData: DocumentData | undefined,
-	docId: string,
-	invitesCollection: QuerySnapshot<DocumentData, DocumentData>
+	doc: DocumentSnapshot<DocumentData, DocumentData> | undefined
 ): Promise<Tournament> {
-	if (!docData || typeof docData !== 'object') {
+	const docData = doc?.data();
+	if (!doc?.exists || !docData || typeof docData !== 'object') {
 		throw new Error('Invalid document data');
 	}
 
@@ -57,7 +56,7 @@ export async function convertToTournament(
 	}
 
 	return {
-		id: docId,
+		id: doc?.id ?? '',
 		name: docData.name ?? '',
 		organizedByUID: docData.organizedByUID ?? '',
 		location: docData.location ?? '',
